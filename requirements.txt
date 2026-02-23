@@ -1,0 +1,7 @@
+openai
+chromadb
+psycopg2-binary
+mss
+Pillow
+pydirectinput
+python-dotenv

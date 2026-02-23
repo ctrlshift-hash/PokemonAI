@@ -1,0 +1,13 @@
+.env
+venv/
+__pycache__/
+*.pyc
+data/game_state.json
+data/debug_capture.png
+agent/planning/active_plans.json
+chroma_db/
+*.log
+logs/
+.claude/
+*.jsonl
+nul

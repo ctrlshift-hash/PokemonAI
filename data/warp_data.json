@@ -1,0 +1,125 @@
+{
+  "0": {
+    "name": "Pallet Town",
+    "landmarks": {
+      "oaks_lab": {"x": 16, "y": 13, "label": "Prof. Oak's Lab"},
+      "players_house": {"x": 6, "y": 7, "label": "Player's House"},
+      "rivals_house": {"x": 15, "y": 7, "label": "Rival's House"},
+      "exit_north": {"x": 10, "y": 0, "label": "Route 1 (North)"}
+    }
+  },
+  "1": {
+    "name": "Viridian City",
+    "landmarks": {
+      "pokecenter": {"x": 26, "y": 26, "label": "Pokemon Center"},
+      "gym": {"x": 36, "y": 10, "label": "Viridian Gym"},
+      "mart": {"x": 36, "y": 19, "label": "PokeMart"},
+      "school": {"x": 25, "y": 18, "label": "Trainer School"},
+      "exit_south": {"x": 26, "y": 35, "label": "Route 1 (South)"},
+      "exit_north": {"x": 26, "y": 0, "label": "Route 2 (North)"}
+    }
+  },
+  "2": {
+    "name": "Pewter City",
+    "landmarks": {
+      "pokecenter": {"x": 17, "y": 25, "label": "Pokemon Center"},
+      "gym": {"x": 15, "y": 16, "label": "Pewter Gym (Brock)"},
+      "mart": {"x": 28, "y": 18, "label": "PokeMart"},
+      "museum": {"x": 17, "y": 6, "label": "Pewter Museum"},
+      "exit_south": {"x": 17, "y": 35, "label": "Route 2 (South)"},
+      "exit_east": {"x": 40, "y": 18, "label": "Route 3 (East)"}
+    }
+  },
+  "3": {
+    "name": "Cerulean City",
+    "landmarks": {
+      "pokecenter": {"x": 22, "y": 19, "label": "Pokemon Center"},
+      "gym": {"x": 31, "y": 21, "label": "Cerulean Gym (Misty)"},
+      "mart": {"x": 29, "y": 28, "label": "PokeMart"},
+      "bike_shop": {"x": 13, "y": 28, "label": "Bike Shop"},
+      "exit_north": {"x": 20, "y": 0, "label": "Route 24 / Nugget Bridge (North)"},
+      "exit_south": {"x": 20, "y": 35, "label": "Route 5 (South)"},
+      "exit_east": {"x": 40, "y": 15, "label": "Route 9 (East)"}
+    }
+  },
+  "4": {
+    "name": "Lavender Town",
+    "landmarks": {
+      "pokecenter": {"x": 6, "y": 5, "label": "Pokemon Center"},
+      "pokemon_tower": {"x": 18, "y": 6, "label": "Pokemon Tower"},
+      "mart": {"x": 20, "y": 15, "label": "PokeMart"},
+      "volunteer_house": {"x": 10, "y": 11, "label": "Volunteer Pokemon House"},
+      "exit_west": {"x": 0, "y": 10, "label": "Route 8 (West)"},
+      "exit_south": {"x": 10, "y": 20, "label": "Route 12 (South)"}
+    }
+  },
+  "5": {
+    "name": "Vermilion City",
+    "landmarks": {
+      "pokecenter": {"x": 15, "y": 6, "label": "Pokemon Center"},
+      "gym": {"x": 14, "y": 25, "label": "Vermilion Gym (Lt. Surge)"},
+      "mart": {"x": 29, "y": 17, "label": "PokeMart"},
+      "fan_club": {"x": 12, "y": 17, "label": "Pokemon Fan Club"},
+      "ss_anne": {"x": 22, "y": 34, "label": "S.S. Anne Dock"},
+      "exit_north": {"x": 18, "y": 0, "label": "Route 6 (North)"},
+      "exit_east": {"x": 35, "y": 20, "label": "Route 11 (East)"}
+    }
+  },
+  "6": {
+    "name": "Celadon City",
+    "landmarks": {
+      "pokecenter": {"x": 48, "y": 11, "label": "Pokemon Center"},
+      "gym": {"x": 11, "y": 30, "label": "Celadon Gym (Erika)"},
+      "dept_store": {"x": 11, "y": 14, "label": "Department Store"},
+      "game_corner": {"x": 34, "y": 21, "label": "Game Corner"},
+      "prize_room": {"x": 39, "y": 20, "label": "Prize Room"},
+      "condominiums": {"x": 30, "y": 11, "label": "Condominiums"},
+      "exit_east": {"x": 55, "y": 20, "label": "Route 7 (East)"},
+      "exit_west": {"x": 0, "y": 20, "label": "Route 16 (West)"}
+    }
+  },
+  "7": {
+    "name": "Fuchsia City",
+    "landmarks": {
+      "pokecenter": {"x": 25, "y": 31, "label": "Pokemon Center"},
+      "gym": {"x": 9, "y": 32, "label": "Fuchsia Gym (Koga)"},
+      "mart": {"x": 11, "y": 15, "label": "PokeMart"},
+      "safari_zone": {"x": 24, "y": 5, "label": "Safari Zone Entrance"},
+      "wardens_house": {"x": 33, "y": 31, "label": "Warden's House"},
+      "exit_east": {"x": 45, "y": 20, "label": "Route 15 (East)"},
+      "exit_west": {"x": 0, "y": 20, "label": "Route 18 (West)"}
+    }
+  },
+  "8": {
+    "name": "Cinnabar Island",
+    "landmarks": {
+      "pokecenter": {"x": 14, "y": 11, "label": "Pokemon Center"},
+      "gym": {"x": 20, "y": 4, "label": "Cinnabar Gym (Blaine)"},
+      "mart": {"x": 19, "y": 11, "label": "PokeMart"},
+      "pokemon_mansion": {"x": 8, "y": 3, "label": "Pokemon Mansion"},
+      "pokemon_lab": {"x": 8, "y": 9, "label": "Pokemon Lab"}
+    }
+  },
+  "9": {
+    "name": "Indigo Plateau",
+    "landmarks": {
+      "pokecenter": {"x": 8, "y": 8, "label": "Pokemon Center"},
+      "elite_four": {"x": 8, "y": 3, "label": "Elite Four Entrance"}
+    }
+  },
+  "10": {
+    "name": "Saffron City",
+    "landmarks": {
+      "pokecenter": {"x": 24, "y": 38, "label": "Pokemon Center"},
+      "gym": {"x": 46, "y": 12, "label": "Saffron Gym (Sabrina)"},
+      "mart": {"x": 40, "y": 21, "label": "PokeMart"},
+      "silph_co": {"x": 33, "y": 30, "label": "Silph Co."},
+      "dojo": {"x": 40, "y": 12, "label": "Fighting Dojo"},
+      "copycat": {"x": 22, "y": 14, "label": "Copycat's House"},
+      "exit_north": {"x": 34, "y": 5, "label": "Route 5 Gate (North)"},
+      "exit_south": {"x": 34, "y": 46, "label": "Route 6 Gate (South)"},
+      "exit_west": {"x": 8, "y": 27, "label": "Route 7 Gate (West)"},
+      "exit_east": {"x": 58, "y": 27, "label": "Route 8 Gate (East)"}
+    }
+  }
+}
