@@ -2227,7 +2227,7 @@
         <div class="footer-right">
           <div class="footer-stat">Memories: <span class="val" id="ft-memories">--</span></div>
           <div class="footer-stat">Errors: <span class="val" id="ft-errors">--</span></div>
-          <a href="https://github.com" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 13px;">GitHub</a>
+          <a href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 13px;">GitHub</a>
         </div>
       </div>
     </div>
@@ -2385,6 +2385,94 @@
        ═══════════════════════════════════════════ */
     let data = null, prev = null, online = false, sessionsData = null;
     let pokedexBuilt = false;
+    let usingDemo = false;
+
+    /* ═══════════════════════════════════════════
+       DEMO DATA (shown when agent is offline)
+       ═══════════════════════════════════════════ */
+    const DEMO_DATA = {
+      tick: 847,
+      timestamp: new Date().toISOString(),
+      latency_ms: 312,
+      model: 'google/gemini-2.0-flash-001',
+      game_phase: 'overworld',
+      observation: 'Standing in Viridian City near the Pokemon Center. The entrance is to the north. A few NPCs are walking around the area.',
+      reasoning: 'My lead Pokemon is low on HP after the battles on Route 1. I should heal at the Pokemon Center before continuing north toward Viridian Forest.',
+      action: 'UP',
+      action_detail: 'Walking toward the Pokemon Center entrance',
+      next_plan: 'Heal party at Pokemon Center, then head north through Viridian Forest to reach Pewter City for the first gym battle.',
+      uptime: '1h 24m 12s',
+      errors: 0,
+      total_memories: 63,
+      game_state: {
+        map_name: 'Viridian City',
+        map_id: 1,
+        player_x: 23,
+        player_y: 18,
+        badge_count: 0,
+        badges: 0,
+        money: 3200,
+        pokedex_caught: 3,
+        pokedex_seen: 8,
+        in_battle: false,
+        party: [
+          { species_id: 4, species_name: 'Charmander', level: 12, hp_current: 18, hp_max: 35, moves: ['Scratch', 'Ember', 'Leer', 'Smokescreen'] },
+          { species_id: 16, species_name: 'Pidgey', level: 8, hp_current: 24, hp_max: 24, moves: ['Tackle', 'Sand Attack', 'Gust'] },
+          { species_id: 19, species_name: 'Rattata', level: 6, hp_current: 19, hp_max: 19, moves: ['Tackle', 'Tail Whip'] }
+        ]
+      },
+      player_stats: {
+        pokemon_caught: 3,
+        battles_won: 14,
+        whiteouts: 1,
+        steps_taken: 2840,
+        total_ticks: 847,
+        action_history: [
+          { tick: 847, action: 'UP', observation: 'Walking toward Pokemon Center', phase: 'overworld' },
+          { tick: 846, action: 'UP', observation: 'Approaching Pokemon Center entrance', phase: 'overworld' },
+          { tick: 845, action: 'A', observation: 'Talked to NPC - received advice about Viridian Forest', phase: 'dialogue' },
+          { tick: 844, action: 'RIGHT', observation: 'Walking through Viridian City streets', phase: 'overworld' },
+          { tick: 843, action: 'RIGHT', observation: 'Entered Viridian City from Route 1', phase: 'overworld' },
+          { tick: 842, action: 'A', observation: 'Wild Rattata fainted! Won the battle', phase: 'battle' },
+          { tick: 841, action: 'A', observation: 'Used Ember on wild Rattata - super effective!', phase: 'battle' },
+          { tick: 840, action: 'A', observation: 'Wild Rattata appeared! Choosing Ember', phase: 'battle' },
+          { tick: 839, action: 'UP', observation: 'Walking through tall grass on Route 1', phase: 'overworld' },
+          { tick: 838, action: 'UP', observation: 'Continuing north on Route 1', phase: 'overworld' }
+        ]
+      },
+      battle_stats: {
+        battles_won: 14,
+        battles_fled: 2,
+        whiteouts: 1,
+        battle_turns: 0,
+        battle_type: 'wild',
+        in_battle: false
+      },
+      goals: [
+        { name: 'Get starter Pokemon from Prof. Oak', status: 'completed' },
+        { name: 'Deliver Oak\'s Parcel', status: 'completed' },
+        { name: 'Get Pokedex from Prof. Oak', status: 'completed' },
+        { name: 'Travel to Viridian City', status: 'completed' },
+        { name: 'Navigate Viridian Forest', status: 'active' },
+        { name: 'Reach Pewter City', status: 'pending' },
+        { name: 'Defeat Brock (Boulder Badge)', status: 'pending' },
+        { name: 'Travel to Mt. Moon', status: 'pending' },
+        { name: 'Navigate Mt. Moon', status: 'pending' },
+        { name: 'Reach Cerulean City', status: 'pending' },
+        { name: 'Defeat Misty (Cascade Badge)', status: 'pending' },
+        { name: 'Complete Nugget Bridge', status: 'pending' },
+        { name: 'Visit Bill', status: 'pending' },
+        { name: 'Travel to Vermilion City', status: 'pending' },
+        { name: 'Board S.S. Anne', status: 'pending' },
+        { name: 'Defeat Lt. Surge (Thunder Badge)', status: 'pending' }
+      ]
+    };
+
+    const DEMO_SESSIONS = [
+      { id: 3, started_at: '2026-02-23T14:30:00', ended_at: null, ticks: 847, badges: 0, pokemon_caught: 3, whiteouts: 1, duration: 'running...' },
+      { id: 2, started_at: '2026-02-22T20:15:00', ended_at: '2026-02-22T21:42:00', ticks: 412, badges: 0, pokemon_caught: 2, whiteouts: 0, duration: '1h 27m 0s' },
+      { id: 1, started_at: '2026-02-22T18:00:00', ended_at: '2026-02-22T18:45:00', ticks: 156, badges: 0, pokemon_caught: 1, whiteouts: 1, duration: '0h 45m 0s' }
+    ];
 
     /* ═══════════════════════════════════════════
        DOM HELPERS
@@ -2446,6 +2534,10 @@
         dot.classList.remove('offline');
         text.textContent = data ? 'Tick ' + (data.tick || 0).toLocaleString() : 'Connected';
         if (chip) { chip.classList.remove('offline-chip'); chip.innerHTML = '<span class="dot"></span> LIVE'; }
+      } else if (usingDemo) {
+        dot.classList.add('offline');
+        text.textContent = 'Demo Mode';
+        if (chip) { chip.classList.add('offline-chip'); chip.innerHTML = '<span class="dot"></span> DEMO'; }
       } else {
         dot.classList.add('offline');
         text.textContent = 'Offline';
@@ -2812,14 +2904,26 @@
     /* ═══════════════════════════════════════════
        INIT
        ═══════════════════════════════════════════ */
+    function loadDemoData() {
+      data = DEMO_DATA;
+      sessionsData = DEMO_SESSIONS;
+      usingDemo = true;
+    }
+
     async function init() {
       initCanvas(); initNavScroll(); initSmoothScroll(); observeReveals();
       showSkeletons(); buildPokedex(); renderHighlights();
       observeReveals();
       const [ok] = await Promise.all([fetchFeed(), fetchSessions()]);
+      if (!ok) loadDemoData();
       render(); observeReveals();
       setTimeout(() => $('loader').classList.add('hidden'), ok ? 500 : 1500);
-      setInterval(async () => { await fetchFeed(); render(); }, POLL_MS);
+      setInterval(async () => {
+        const live = await fetchFeed();
+        if (live && usingDemo) { usingDemo = false; }
+        if (!live && !usingDemo) loadDemoData();
+        render();
+      }, POLL_MS);
       setInterval(async () => { await fetchSessions(); renderSessions(); }, 60000);
     }
 
