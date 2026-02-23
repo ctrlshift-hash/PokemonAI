@@ -32,7 +32,6 @@ def init_db():
                 "INSERT INTO live_feed (id, data) VALUES (1, '{}') "
                 "ON CONFLICT (id) DO NOTHING"
             )
-            cur.execute("DROP TABLE IF EXISTS sessions")
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS sessions (
                     id SERIAL PRIMARY KEY,
