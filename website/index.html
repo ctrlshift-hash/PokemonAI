@@ -2016,6 +2016,70 @@
     @keyframes gd3 { 0% { transform: translate(0,0); } 100% { transform: translate(-30px,-50px); } }
 
     /* ═══════════════════════════════════════════
+       GLOBAL HOVER EFFECTS
+       ═══════════════════════════════════════════ */
+    /* Live chip */
+    .live-chip { transition: all var(--transition-fast); }
+    .live-chip:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 4px 12px rgba(34,197,94,0.15); }
+    /* Game frame badges */
+    .game-frame-live { transition: all var(--transition-fast); }
+    .game-frame-live:hover { transform: scale(1.1); background: rgba(0,0,0,0.75); }
+    .game-frame-res { transition: all var(--transition-fast); }
+    .game-frame-res:hover { transform: scale(1.1); background: rgba(0,0,0,0.75); }
+    /* HP bar */
+    .hp-bar-container { transition: all var(--transition-fast); }
+    .hp-bar-container:hover { transform: scaleY(1.4); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .hp-bar-fill { transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter var(--transition-fast); }
+    .hp-bar-container:hover .hp-bar-fill { filter: brightness(1.2); }
+    /* Journey items */
+    .journey-item { transition: all var(--transition-fast); }
+    .journey-item:hover { transform: translateX(6px); color: var(--text-primary); }
+    .journey-item-status { transition: all var(--transition-fast); }
+    .journey-item:hover .journey-item-status { transform: scale(1.1); }
+    /* Journey progress bar */
+    .journey-progress-bar { transition: all var(--transition-fast); }
+    .journey-progress-bar:hover { transform: scaleY(1.3); box-shadow: 0 2px 12px rgba(220,38,38,0.1); }
+    .journey-progress-bar:hover .journey-progress-fill { filter: brightness(1.15); }
+    /* About highlight text */
+    .about-highlight { transition: all var(--transition-fast); }
+    .about-highlight:hover { background: rgba(251,140,45,0.15); transform: translateY(-1px); }
+    /* About intro strong text */
+    .about-intro strong { transition: color var(--transition-fast); }
+    .about-intro strong:hover { color: var(--red); }
+    /* Log action badge */
+    .log-action { transition: all var(--transition-fast); }
+    .log-entry:hover .log-action { background: rgba(220,38,38,0.12); transform: scale(1.05); }
+    /* Nav status */
+    .nav-status { transition: all var(--transition-fast); }
+    .nav-status:hover { transform: translateY(-1px); }
+    .nav-status:hover .dot { transform: scale(1.4); }
+    /* Section labels */
+    .section-label { transition: all var(--transition-fast); cursor: default; }
+    .section-label:hover { transform: translateX(4px); }
+    .section-label:hover::before { width: 32px; }
+    .section-label::before { transition: width var(--transition-fast); }
+    /* Section desc */
+    .section-desc { transition: color var(--transition-fast); }
+    .section-desc:hover { color: var(--text-primary); }
+    /* Pokedex header stats */
+    .pokedex-header-stats { transition: all var(--transition-fast); }
+    /* Dex modal stats */
+    .dex-modal-stat { transition: all var(--transition-fast); }
+    .dex-modal-stat:hover { transform: translateY(-2px); background: rgba(220,38,38,0.03); border-radius: 6px; }
+    /* Hero overline */
+    .hero-overline { transition: all var(--transition-fast); cursor: default; }
+    .hero-overline:hover { transform: translateY(-2px); letter-spacing: 0.2em; }
+    /* Social nav icons */
+    .social-icon { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .social-icon:hover { transform: translateY(-4px) scale(1.15); }
+    /* Session table rows */
+    .sessions-table td { transition: all var(--transition-fast); }
+    .sessions-table tr:hover td { transform: translateX(2px); }
+    /* Pokeball divider lines */
+    .pokeball-divider-line { transition: all var(--transition-fast); }
+    .pokeball-divider:hover .pokeball-divider-line { opacity: 0.8; transform: scaleX(1.05); }
+
+    /* ═══════════════════════════════════════════
        RESPONSIVE
        ═══════════════════════════════════════════ */
     @media (max-width: 1024px) {
