@@ -394,10 +394,14 @@
       justify-content: space-between;
     }
     .nav-brand {
+      position: fixed;
+      left: 32px;
+      top: 4px;
+      height: 56px;
+      z-index: 1001;
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-right: 40px;
       font-family: var(--font-pokemon);
       font-weight: 400;
       font-size: 16px;
@@ -414,6 +418,7 @@
          1px  0   0 #2A75BB;
     }
     .nav-brand svg { width: 28px; height: 28px; }
+    .nav-brand-spacer { width: 140px; flex-shrink: 0; }
     .nav-links {
       display: flex;
       align-items: center;
@@ -1933,6 +1938,7 @@
         </svg>
         Pokemon AI
       </div>
+      <div class="nav-brand-spacer"></div>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#mind">AI Mind</a></li>
