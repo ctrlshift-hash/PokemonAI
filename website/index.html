@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokemon AI — Autonomous FireRed Agent</title>
-  <meta name="description" content="An autonomous AI agent that plays Pokemon FireRed using computer vision and large language models. Watch it think, strategize, and play in real-time.">
+  <meta name="description" content="An autonomous AI agent powered by Claude Opus 4.6 running on a Mac Mini that plays Pokemon FireRed using vision and reasoning. Watch it think, strategize, and play in real-time.">
   <meta property="og:title" content="Pokemon AI — Autonomous FireRed Agent">
-  <meta property="og:description" content="Watch an AI play Pokemon FireRed in real-time using computer vision and LLMs.">
+  <meta property="og:description" content="Claude Opus 4.6 plays Pokemon FireRed autonomously on a Mac Mini. Watch it think, battle, and explore in real-time.">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23ef4444' stroke='%23222' stroke-width='4'/><rect x='2' y='46' width='96' height='8' fill='%23222'/><circle cx='50' cy='50' r='16' fill='%23fff' stroke='%23222' stroke-width='4'/><circle cx='50' cy='50' r='8' fill='%23222'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2241,9 +2241,9 @@
       <span class="gradient-text">Pokemon AI</span>
     </h1>
     <p class="hero-subtitle hero-enter hero-enter-3">
-      An autonomous agent that plays <strong>Pokemon FireRed</strong> using
-      computer vision and large language models. It sees the screen, thinks
-      about strategy, and presses buttons &mdash; all on its own.
+      <strong>Claude Opus 4.6</strong> plays <strong>Pokemon FireRed</strong> autonomously
+      on a <strong>Mac Mini</strong>. It screenshots the mGBA emulator, reasons through every battle
+      and menu, and presses the buttons itself &mdash; zero human input.
     </p>
     <div class="hero-metrics hero-enter hero-enter-4" id="hero-metrics">
       <div class="hero-metric">
@@ -2276,12 +2276,12 @@
         <div class="section-label">About the Project</div>
         <h2>What is Pokemon AI?</h2>
         <p class="about-intro">
-          Pokemon AI is a fully autonomous artificial intelligence that plays
-          <strong>Pokemon FireRed</strong> from start to finish &mdash; without any human
-          intervention. It captures screenshots from an mGBA emulator, sends them to
-          <span class="about-highlight">Anthropic's Claude Opus 4.6</span> for visual
-          analysis, and translates the AI's decisions into real keyboard inputs.
-          Every single button press is decided by the AI.
+          Pokemon AI is <span class="about-highlight">Claude Opus 4.6</span> playing
+          <strong>Pokemon FireRed</strong> from start to finish on a <strong>Mac Mini</strong> &mdash;
+          completely autonomously. A Python agent running on the Mac Mini captures screenshots
+          from mGBA at 480&times;320, sends them to Claude Opus 4.6 via the Anthropic API,
+          and executes Claude's decisions as real keyboard inputs through pydirectinput.
+          Every button press &mdash; every A, B, Start, D-pad direction &mdash; is Claude's call.
         </p>
       </div>
 
@@ -2289,32 +2289,32 @@
         <div class="card card-fire feature-card reveal reveal-delay-1" style="--feature-color: var(--blue);">
           <div class="feature-icon" style="--feature-color: var(--blue);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scope-lens.png" alt="Vision"></div>
           <div class="feature-title">Computer Vision</div>
-          <div class="feature-desc">Captures the game screen twice per second and sends it to Claude Opus 4.6 for visual analysis. The AI reads text, identifies Pokemon, and understands spatial context from raw pixels.</div>
+          <div class="feature-desc">The Mac Mini captures mGBA at 480&times;320 twice per second, encodes it as JPEG base64, and sends it to Claude Opus 4.6 via the Anthropic API. Claude reads dialogue, identifies wild Pokemon, and understands the game state from raw pixels.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-2" style="--feature-color: var(--purple);">
           <div class="feature-icon" style="--feature-color: var(--purple);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/choice-specs.png" alt="Reasoning"></div>
           <div class="feature-title">Strategic Reasoning</div>
-          <div class="feature-desc">The LLM analyzes each frame alongside game memory data, considers current goals and battle type effectiveness, then reasons through the optimal next action to take.</div>
+          <div class="feature-desc">Claude Opus 4.6 receives the screenshot alongside live RAM data (HP, level, location, team) read by a Lua script inside mGBA. It cross-references type matchups, current goals, and battle state, then reasons through the best move.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-3" style="--feature-color: var(--green);">
           <div class="feature-icon" style="--feature-color: var(--green);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/up-grade.png" alt="Control"></div>
           <div class="feature-title">Autonomous Control</div>
-          <div class="feature-desc">Decisions are translated into keyboard inputs via pydirectinput. The AI controls A, B, Start, Select, and the D-pad &mdash; the same buttons a human would use. No human in the loop.</div>
+          <div class="feature-desc">Claude's JSON response is parsed on the Mac Mini and translated into keyboard inputs via pydirectinput. It controls A (z), B (x), Start (enter), Select (backspace), and arrow keys &mdash; the exact same GBA buttons a human would use.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-4" style="--feature-color: var(--orange);">
           <div class="feature-icon" style="--feature-color: var(--orange);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/town-map.png" alt="Memory"></div>
           <div class="feature-title">Persistent Memory</div>
-          <div class="feature-desc">A ChromaDB vector database stores memories about locations, NPCs, items, and events. The AI retrieves relevant past experiences to inform current decisions, just like a real player would.</div>
+          <div class="feature-desc">A ChromaDB vector database running on the Mac Mini stores Claude's past observations, battle outcomes, and exploration notes. Before each decision, relevant memories are retrieved and injected into Claude's prompt for context.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-5" style="--feature-color: var(--red-light);">
           <div class="feature-icon" style="--feature-color: var(--red-light);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/black-belt.png" alt="Battle"></div>
           <div class="feature-title">Battle Intelligence</div>
-          <div class="feature-desc">A built-in type effectiveness engine analyzes matchups and recommends optimal moves. The AI knows that Water beats Fire, Electric beats Water, and plans its battle strategy accordingly.</div>
+          <div class="feature-desc">A Python type effectiveness engine feeds Claude the full matchup table for the current battle. Claude sees damage multipliers, remaining HP, available moves, and PP counts &mdash; then picks the highest-value play.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-6" style="--feature-color: var(--gold);">
           <div class="feature-icon" style="--feature-color: var(--gold);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/old-sea-map.png" alt="Planning"></div>
           <div class="feature-title">Goal Planning</div>
-          <div class="feature-desc">A 22-milestone progression tree guides the AI from Professor Oak's lab to the Elite Four. Goals auto-advance as milestones are completed, keeping the AI focused on long-term progress.</div>
+          <div class="feature-desc">A 22-step progression tree hardcoded in Python guides Claude from Professor Oak's lab in Pallet Town through all 8 gym badges to the Elite Four at Indigo Plateau. Goals auto-advance when RAM data confirms completion.</div>
         </div>
       </div>
 
@@ -2376,7 +2376,7 @@
       <div class="reveal">
         <div class="section-label">AI Mind</div>
         <h2>Real-Time Thinking</h2>
-        <p class="section-desc">Watch the AI's thought process unfold. Every 500ms it observes the game, reasons about what to do, takes an action, and plans its next move.</p>
+        <p class="section-desc">Watch Claude Opus 4.6 think in real-time. Every 500ms the Mac Mini screenshots mGBA, sends it to Claude, and Claude responds with an observation, reasoning, action, and next plan.</p>
       </div>
 
       <div class="mind-pipeline reveal reveal-delay-1">
@@ -2465,7 +2465,7 @@
       <div class="reveal">
         <div class="section-label">Action Log</div>
         <h2>Decision Stream</h2>
-        <p class="section-desc">The last 20 actions taken by the AI. Each entry represents a single decision cycle: observe, reason, and act.</p>
+        <p class="section-desc">The last 20 actions Claude took. Each entry is one decision cycle &mdash; Claude saw the screen, reasoned about it, and pressed a button.</p>
       </div>
       <div class="card reveal reveal-delay-1" style="padding: 8px 0; overflow: hidden;">
         <div class="log-list" id="log-list">
@@ -2487,7 +2487,7 @@
       <div class="reveal">
         <div class="section-label">Milestones</div>
         <h2>Key Achievements</h2>
-        <p class="section-desc">Achievements unlocked as the AI progresses through its Pokemon FireRed journey. Locked milestones show what's coming next.</p>
+        <p class="section-desc">Achievements unlocked as Claude progresses through Pokemon FireRed. Tracked via RAM reads on the Mac Mini &mdash; locked milestones show what's coming next.</p>
       </div>
       <div class="highlights-grid" id="highlights-grid"></div>
     </div>
@@ -2505,7 +2505,7 @@
       <div class="reveal">
         <div class="section-label">Team</div>
         <h2>Current Party</h2>
-        <p class="section-desc">The AI's active Pokemon team, read directly from the game's RAM in real-time via a Lua memory script running inside the emulator.</p>
+        <p class="section-desc">Claude's active Pokemon team, read directly from FireRed's RAM in real-time via a Lua script running inside mGBA on the Mac Mini. Species, level, HP, moves &mdash; all pulled from memory addresses.</p>
       </div>
       <div class="team-grid" id="team-grid"></div>
       <div class="badges-section reveal reveal-delay-2">
@@ -2530,7 +2530,7 @@
       <div class="reveal">
         <div class="section-label">Pokedex</div>
         <h2>Kanto Pokemon</h2>
-        <p class="section-desc">The original 151 Kanto Pokemon. Pokemon in the AI's current party are highlighted with their type colors.</p>
+        <p class="section-desc">The original 151 Kanto Pokemon. Pokemon Claude has caught or seen are highlighted with their type colors. Click any entry for full PokeAPI data.</p>
       </div>
       <div class="pokedex-header-stats reveal reveal-delay-1">
         <div class="pokedex-stat">In Party: <span class="val" id="dex-party-count">0</span> / 6</div>
@@ -2571,7 +2571,7 @@
       <div class="reveal">
         <div class="section-label">Journey</div>
         <h2>FireRed Progression</h2>
-        <p class="section-desc">The AI follows a 22-milestone progression tree through Pokemon FireRed, from getting its first Pokemon in Pallet Town to challenging the Elite Four at Indigo Plateau.</p>
+        <p class="section-desc">Claude follows a 22-step progression tree through FireRed &mdash; from picking a starter in Pallet Town to challenging the Elite Four. Progress auto-updates when RAM confirms each milestone.</p>
       </div>
       <div class="reveal reveal-delay-1" style="margin-top: 40px;">
         <div class="journey-header">
@@ -2598,7 +2598,7 @@
       <div class="reveal">
         <div class="section-label">Trainer Stats</div>
         <h2>Performance Metrics</h2>
-        <p class="section-desc">Every battle, every step, every catch is tracked. These numbers represent the AI's cumulative performance across its training sessions.</p>
+        <p class="section-desc">Every battle, step, and catch Claude makes is tracked. Stats are read from FireRed's RAM and stored in PostgreSQL on Railway for live dashboard updates.</p>
       </div>
       <div class="stats-grid" id="stats-grid"></div>
 
@@ -2631,7 +2631,7 @@
       <div class="reveal">
         <div class="section-label">Architecture</div>
         <h2>System Design</h2>
-        <p class="section-desc">A real-time pipeline connecting game emulation, RAM reading, computer vision, LLM reasoning, and autonomous input &mdash; all running locally on a single machine.</p>
+        <p class="section-desc">The full pipeline running on a single Mac Mini: mGBA emulator &rarr; Lua RAM reader &rarr; Python agent &rarr; Claude Opus 4.6 via Anthropic API &rarr; pydirectinput keyboard control. PostgreSQL on Railway for live stats.</p>
       </div>
       <div class="arch-flow reveal reveal-delay-1">
         <div class="arch-row">
@@ -2674,9 +2674,10 @@
       <div class="reveal" style="margin-top: 56px; text-align: center;">
         <h3 style="margin-bottom: 16px;">Tech Stack</h3>
         <div class="tech-grid">
+          <span class="tech-badge">Mac Mini</span>
           <span class="tech-badge">Python 3.11</span>
           <span class="tech-badge">Claude Opus 4.6</span>
-          <span class="tech-badge">OpenRouter API</span>
+          <span class="tech-badge">Anthropic API</span>
           <span class="tech-badge">mGBA Emulator</span>
           <span class="tech-badge">Lua 5.4</span>
           <span class="tech-badge">ChromaDB</span>
@@ -2705,7 +2706,7 @@
           <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="14" stroke="#333" stroke-width="5" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
           Pokemon AI
         </div>
-        <div class="footer-tagline">An autonomous AI agent that plays Pokemon FireRed using computer vision and large language models.</div>
+        <div class="footer-tagline">Claude Opus 4.6 playing Pokemon FireRed autonomously on a Mac Mini.</div>
         <div class="footer-bottom">
           <span>&copy; 2026 Pokemon AI</span>
           <span class="footer-bottom-dot"></span>
