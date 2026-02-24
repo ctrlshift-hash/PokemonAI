@@ -1272,6 +1272,17 @@
       opacity: 0.12;
       transition: all var(--transition-base);
     }
+    .dex-cell.seen {
+      background: rgba(0,0,0,0.02);
+      border-color: rgba(0,0,0,0.1);
+    }
+    .dex-cell.seen .dex-sprite {
+      filter: grayscale(0.5);
+      opacity: 0.6;
+    }
+    .dex-cell.seen .dex-num {
+      color: var(--text-dim);
+    }
     .dex-cell.caught {
       background: color-mix(in srgb, var(--type-color, #A8A878) 8%, transparent);
       border-color: color-mix(in srgb, var(--type-color, #A8A878) 20%, transparent);
@@ -2749,21 +2760,29 @@
     function renderPokedex() {
       buildPokedex();
       const gs = data ? data.game_state || {} : {};
-      const party = gs.party || [];
-      const partyIds = new Set();
-      party.forEach(p => {
-        if (p && p.species_id && p.species_id <= 151) partyIds.add(p.species_id);
+      const seenIds = new Set((gs.seen_ids || []).filter(id => id <= 151));
+      const caughtIds = new Set((gs.caught_ids || []).filter(id => id <= 151));
+      /* Also add party Pokemon to caught */
+      (gs.party || []).forEach(p => {
+        if (p && p.species_id && p.species_id <= 151) caughtIds.add(p.species_id);
       });
-      /* Clear all caught states first */
+      /* Clear previous states */
+      qsa('.dex-cell.seen').forEach(el => el.classList.remove('seen'));
       qsa('.dex-cell.caught').forEach(el => el.classList.remove('caught'));
-      /* Mark party Pokemon as caught */
-      partyIds.forEach(id => {
+      /* Mark seen Pokemon (semi-visible) */
+      seenIds.forEach(id => {
+        if (!caughtIds.has(id)) {
+          const cell = $('dex-' + id);
+          if (cell) cell.classList.add('seen');
+        }
+      });
+      /* Mark caught Pokemon (full color) */
+      caughtIds.forEach(id => {
         const cell = $('dex-' + id);
         if (cell) cell.classList.add('caught');
       });
-      $('dex-party-count').textContent = partyIds.size;
-      const seen = (data ? data.player_stats || {} : {}).pokedex_seen || gs.pokedex_seen || partyIds.size;
-      $('dex-seen-count').textContent = seen;
+      $('dex-party-count').textContent = caughtIds.size;
+      $('dex-seen-count').textContent = seenIds.size || gs.pokedex_seen || caughtIds.size;
     }
 
     /* ═══════════════════════════════════════════

@@ -61,7 +61,7 @@ TYPE_CHART_FILE = PROJECT_ROOT / "data" / "type_chart.json"
 MAP_NAMES_FILE = PROJECT_ROOT / "data" / "map_names.json"
 
 # LLM
-LLM_MAX_TOKENS = 150
+LLM_MAX_TOKENS = 350
 LLM_TEMPERATURE = 0.3
 
 # Overlay

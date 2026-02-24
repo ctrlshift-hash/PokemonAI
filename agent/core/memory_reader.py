@@ -834,6 +834,8 @@ class GameState:
     battle_type: str = "none"
     pokedex_seen: int = 0
     pokedex_caught: int = 0
+    seen_ids: list = None
+    caught_ids: list = None
 
     # ------------------------------------------------------------------
     # Readable summary for the LLM context window
@@ -886,6 +888,8 @@ class GameState:
             "battle_type": self.battle_type,
             "pokedex_seen": self.pokedex_seen,
             "pokedex_caught": self.pokedex_caught,
+            "seen_ids": self.seen_ids or [],
+            "caught_ids": self.caught_ids or [],
         }
 
     # ------------------------------------------------------------------
@@ -970,6 +974,8 @@ class GameState:
             battle_type=battle_type,
             pokedex_seen=int(raw.get("pokedex_seen", 0)),
             pokedex_caught=int(raw.get("pokedex_caught", 0)),
+            seen_ids=raw.get("seen_ids", []),
+            caught_ids=raw.get("caught_ids", []),
         )
         cls._last_good_state = state
         return state

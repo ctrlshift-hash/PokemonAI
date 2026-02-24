@@ -247,6 +247,27 @@ local function read_game_state()
     state.pokedex_seen = count_bits(ADDR.POKEDEX_SEEN, 52)
     state.pokedex_caught = count_bits(ADDR.POKEDEX_CAUGHT, 52)
 
+    -- Pokedex species ID lists (for dashboard highlighting)
+    state.seen_ids = {}
+    state.caught_ids = {}
+    for i = 0, 51 do
+        local seen_byte = emu:read8(ADDR.POKEDEX_SEEN + i)
+        local caught_byte = emu:read8(ADDR.POKEDEX_CAUGHT + i)
+        for bit = 0, 7 do
+            local species = i * 8 + bit + 1
+            if species <= 386 then
+                if seen_byte % 2 == 1 then
+                    state.seen_ids[#state.seen_ids + 1] = species
+                end
+                if caught_byte % 2 == 1 then
+                    state.caught_ids[#state.caught_ids + 1] = species
+                end
+            end
+            seen_byte = math.floor(seen_byte / 2)
+            caught_byte = math.floor(caught_byte / 2)
+        end
+    end
+
     return state
 end
 
