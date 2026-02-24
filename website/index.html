@@ -2279,7 +2279,7 @@
           Pokemon AI is a fully autonomous artificial intelligence that plays
           <strong>Pokemon FireRed</strong> from start to finish &mdash; without any human
           intervention. It captures screenshots from an mGBA emulator, sends them to
-          <span class="about-highlight">Google's Gemini 2.0 Flash</span> for visual
+          <span class="about-highlight">Anthropic's Claude Opus 4.6</span> for visual
           analysis, and translates the AI's decisions into real keyboard inputs.
           Every single button press is decided by the AI.
         </p>
@@ -2289,7 +2289,7 @@
         <div class="card card-fire feature-card reveal reveal-delay-1" style="--feature-color: var(--blue);">
           <div class="feature-icon" style="--feature-color: var(--blue);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scope-lens.png" alt="Vision"></div>
           <div class="feature-title">Computer Vision</div>
-          <div class="feature-desc">Captures the game screen twice per second and sends it to Gemini 2.0 Flash for visual analysis. The AI reads text, identifies Pokemon, and understands spatial context from raw pixels.</div>
+          <div class="feature-desc">Captures the game screen twice per second and sends it to Claude Opus 4.6 for visual analysis. The AI reads text, identifies Pokemon, and understands spatial context from raw pixels.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-2" style="--feature-color: var(--purple);">
           <div class="feature-icon" style="--feature-color: var(--purple);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/choice-specs.png" alt="Reasoning"></div>
@@ -2364,7 +2364,7 @@
         <span class="location-sep">/</span>
         <div class="location-item">
           <span class="label">Model</span>
-          <span class="value">Gemini 2.0 Flash</span>
+          <span class="value">Claude Opus 4.6</span>
         </div>
       </div>
     </div>
@@ -2649,7 +2649,7 @@
           <span class="arch-arrow">&larr;</span>
           <div class="arch-node ai"><div class="arch-node-label">Decision Engine</div><div class="arch-node-desc">Goals + battle + memory</div></div>
           <span class="arch-arrow">&larr;</span>
-          <div class="arch-node ai"><div class="arch-node-label">Gemini 2.0 Flash</div><div class="arch-node-desc">Vision LLM via OpenRouter</div></div>
+          <div class="arch-node ai"><div class="arch-node-label">Claude Opus 4.6</div><div class="arch-node-desc">Vision LLM via Anthropic API</div></div>
           <span class="arch-arrow">&larr;</span>
           <div class="arch-node ai"><div class="arch-node-label">Screenshot</div><div class="arch-node-desc">480x320 JPEG capture</div></div>
         </div>
@@ -2675,7 +2675,7 @@
         <h3 style="margin-bottom: 16px;">Tech Stack</h3>
         <div class="tech-grid">
           <span class="tech-badge">Python 3.11</span>
-          <span class="tech-badge">Gemini 2.0 Flash</span>
+          <span class="tech-badge">Claude Opus 4.6</span>
           <span class="tech-badge">OpenRouter API</span>
           <span class="tech-badge">mGBA Emulator</span>
           <span class="tech-badge">Lua 5.4</span>
@@ -2709,7 +2709,7 @@
         <div class="footer-bottom">
           <span>&copy; 2026 Pokemon AI</span>
           <span class="footer-bottom-dot"></span>
-          <span>Built with Gemini 2.0 Flash + Python</span>
+          <span>Built with Claude Opus 4.6 + Python</span>
         </div>
       </div>
     </div>
@@ -2877,7 +2877,7 @@
       tick: 847,
       timestamp: new Date().toISOString(),
       latency_ms: 312,
-      model: 'google/gemini-2.0-flash-001',
+      model: 'claude-opus-4-6',
       game_phase: 'overworld',
       observation: 'Standing in Viridian City near the Pokemon Center. The entrance is to the north. A few NPCs are walking around the area.',
       reasoning: 'My lead Pokemon is low on HP after the battles on Route 1. I should heal at the Pokemon Center before continuing north toward Viridian Forest.',
