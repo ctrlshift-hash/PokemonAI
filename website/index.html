@@ -248,10 +248,10 @@
     }
     .card:hover {
       background: #FFFFFF;
-      border-color: rgba(220,38,38,0.15);
-      border-top-color: rgba(220,38,38,0.6);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md), var(--shadow-glow);
+      border-color: rgba(220,38,38,0.18);
+      border-top-color: rgba(220,38,38,0.7);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 12px 32px rgba(220,38,38,0.1), 0 4px 16px rgba(0,0,0,0.08), var(--shadow-glow);
     }
     .card-fire {
       background: var(--bg-surface);
@@ -281,7 +281,7 @@
       left: -100%;
       width: 50%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), rgba(255,255,255,0.15), rgba(255,255,255,0.08), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), rgba(255,255,255,0.25), rgba(255,255,255,0.12), transparent);
       pointer-events: none;
       z-index: 1;
     }
@@ -619,9 +619,9 @@
       padding: 20px 32px;
       text-align: center;
       min-width: 140px;
-      transition: background var(--transition-base);
+      transition: all var(--transition-base);
     }
-    .hero-metric:hover { background: #FFF8F6; }
+    .hero-metric:hover { background: #FFF0EC; transform: translateY(-2px); }
     .hero-metric-value {
       font-family: var(--font-mono);
       font-size: 22px;
@@ -630,7 +630,7 @@
       margin-bottom: 4px;
       transition: all var(--transition-base);
     }
-    .hero-metric:hover .hero-metric-value { color: var(--red); transform: scale(1.05); }
+    .hero-metric:hover .hero-metric-value { color: var(--red); transform: scale(1.1); text-shadow: 0 0 16px rgba(220,38,38,0.2); }
     .hero-metric-label {
       font-size: 11px;
       font-weight: 600;
@@ -727,8 +727,9 @@
       border-left: 2px solid color-mix(in srgb, var(--feature-color, var(--red)) 20%, transparent);
     }
     .feature-card:hover {
-      background: color-mix(in srgb, var(--feature-color, var(--red)) 8%, var(--bg-surface-alt));
-      border-left-color: color-mix(in srgb, var(--feature-color, var(--red)) 40%, transparent);
+      background: color-mix(in srgb, var(--feature-color, var(--red)) 10%, var(--bg-surface-alt));
+      border-left-color: color-mix(in srgb, var(--feature-color, var(--red)) 60%, transparent);
+      border-left-width: 3px;
     }
     .feature-card::before {
       content: '';
@@ -754,7 +755,11 @@
       background: color-mix(in srgb, var(--feature-color, var(--red)) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--feature-color, var(--red)) 15%, transparent);
     }
-    .feature-card:hover .feature-icon { animation: icon-wiggle 0.5s ease; }
+    .feature-card:hover .feature-icon {
+      animation: icon-wiggle 0.5s ease;
+      background: color-mix(in srgb, var(--feature-color, var(--red)) 20%, transparent);
+      border-color: color-mix(in srgb, var(--feature-color, var(--red)) 30%, transparent);
+    }
     .feature-icon img {
       width: 28px;
       height: 28px;
@@ -805,7 +810,7 @@
       opacity: 0.7;
       transition: opacity var(--transition-base);
     }
-    .highlight-card:hover::before { opacity: 1; }
+    .highlight-card:hover::before { opacity: 1; height: 4px; }
     .highlight-icon {
       width: 44px; height: 44px;
       border-radius: var(--radius-sm);
@@ -1169,7 +1174,9 @@
       border-left: 2px solid color-mix(in srgb, var(--type-color, #A8A878) 20%, transparent);
     }
     .poke-card:hover {
-      border-left-color: color-mix(in srgb, var(--type-color, #A8A878) 45%, transparent);
+      border-left-color: color-mix(in srgb, var(--type-color, #A8A878) 60%, transparent);
+      border-left-width: 3px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--type-color, #A8A878) 10%, transparent), transparent 60%);
     }
     /* Type-colored top accent */
     .poke-card .type-accent {
@@ -1191,7 +1198,7 @@
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
       transition: transform var(--transition-base);
     }
-    .poke-card:hover .poke-sprite { transform: scale(1.1) translateY(-4px); }
+    .poke-card:hover .poke-sprite { transform: scale(1.15) translateY(-6px); filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2)); }
     .poke-name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; text-transform: capitalize; }
     .poke-level { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
     .poke-type-badge {
@@ -1278,8 +1285,8 @@
       pointer-events: none;
     }
     .gym-badge.earned:hover {
-      transform: scale(1.15) translateY(-2px);
-      box-shadow: 0 0 45px color-mix(in srgb, var(--badge-color) 50%, transparent);
+      transform: scale(1.2) translateY(-4px);
+      box-shadow: 0 0 50px color-mix(in srgb, var(--badge-color) 55%, transparent), 0 8px 24px rgba(0,0,0,0.1);
     }
     .gym-badge.earned:hover::after { animation: badge-gleam 0.7s ease forwards; }
     .gym-badge-icon {
@@ -1660,8 +1667,8 @@
     }
     .stat-card:hover .stat-value {
       color: var(--stat-color, var(--red));
-      text-shadow: 0 0 20px color-mix(in srgb, var(--stat-color, var(--red)) 30%, transparent);
-      transform: scale(1.05);
+      text-shadow: 0 0 24px color-mix(in srgb, var(--stat-color, var(--red)) 40%, transparent);
+      transform: scale(1.08);
       transform-origin: left;
     }
     .stat-label {
@@ -1699,7 +1706,7 @@
       font-family: var(--font-mono);
       font-size: 12px;
     }
-    .sessions-table tr:hover td { background: rgba(220,38,38,0.02); }
+    .sessions-table tr:hover td { background: rgba(220,38,38,0.05); transition: background var(--transition-fast); }
     .session-running { color: var(--green); font-weight: 600; }
 
     /* ═══════════════════════════════════════════
@@ -1719,10 +1726,10 @@
       position: relative;
     }
     .arch-node:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
-    .arch-node.data:hover { border-color: var(--blue); box-shadow: 0 4px 24px rgba(75,141,248,0.2); }
-    .arch-node.ai:hover { border-color: var(--red-light); box-shadow: 0 4px 24px rgba(240,82,82,0.2); }
-    .arch-node.output:hover { border-color: var(--green); box-shadow: 0 4px 24px rgba(52,211,104,0.2); }
-    .arch-node.infra:hover { border-color: var(--orange); box-shadow: 0 4px 24px rgba(251,140,45,0.2); }
+    .arch-node.data:hover { border-color: var(--blue); box-shadow: 0 8px 28px rgba(75,141,248,0.25); transform: translateY(-4px) scale(1.02); }
+    .arch-node.ai:hover { border-color: var(--red-light); box-shadow: 0 8px 28px rgba(240,82,82,0.25); transform: translateY(-4px) scale(1.02); }
+    .arch-node.output:hover { border-color: var(--green); box-shadow: 0 8px 28px rgba(52,211,104,0.25); transform: translateY(-4px) scale(1.02); }
+    .arch-node.infra:hover { border-color: var(--orange); box-shadow: 0 8px 28px rgba(251,140,45,0.25); transform: translateY(-4px) scale(1.02); }
     .arch-node::before {
       content: '';
       position: absolute;
@@ -1768,13 +1775,13 @@
       transition: all var(--transition-base);
     }
     .tech-badge:hover {
-      background: rgba(220,38,38,0.06);
-      border-color: rgba(220,38,38,0.15);
-      color: var(--text-primary);
-      transform: scale(1.05) translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220,38,38,0.1);
+      background: rgba(220,38,38,0.08);
+      border-color: rgba(220,38,38,0.25);
+      color: var(--red);
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 6px 20px rgba(220,38,38,0.15);
     }
-    .tech-badge:active { transform: scale(0.98); }
+    .tech-badge:active { transform: scale(0.96); }
 
     /* ═══════════════════════════════════════════
        ACTION LOG
@@ -1791,7 +1798,8 @@
       transition: background var(--transition-fast);
       font-size: 13px;
     }
-    .log-entry:hover { background: rgba(220,38,38,0.02); }
+    .log-entry:hover { background: rgba(220,38,38,0.05); transform: translateX(4px); }
+    .log-entry { transition: background var(--transition-fast), transform var(--transition-fast); }
     .log-tick { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); font-weight: 500; }
     .log-action {
       font-family: var(--font-mono); font-size: 12px; font-weight: 700;
@@ -1806,21 +1814,20 @@
        ═══════════════════════════════════════════ */
     footer {
       padding: 0;
-      border-top: none;
+      border-top: 1px solid var(--border);
       position: relative;
       z-index: 1;
-      background: linear-gradient(180deg, var(--bg-primary) 0%, #1a1a2e 5%, #1a1a2e 100%);
-      color: #a0a0b8;
+      background: var(--bg-primary);
     }
     .footer-divider { padding: 0 48px; position: relative; z-index: 2; }
-    .footer-main {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 48px;
-      padding: 56px 0 40px;
-      align-items: start;
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 32px 0 28px;
+      text-align: center;
     }
-    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
     .footer-brand-name {
       display: flex;
       align-items: center;
@@ -1833,59 +1840,19 @@
       text-shadow: -1px -1px 0 #2A75BB, 1px -1px 0 #2A75BB, -1px 1px 0 #2A75BB, 1px 1px 0 #2A75BB;
     }
     .footer-brand-name svg { width: 24px; height: 24px; }
-    .footer-tagline { font-size: 13px; color: #8888a0; line-height: 1.5; }
-    .footer-copyright { font-size: 12px; color: #666680; margin-top: 4px; }
-    .footer-nav { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .footer-nav-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #8888a0; margin-bottom: 4px; }
-    .footer-nav-links { display: flex; flex-direction: column; align-items: center; gap: 8px; list-style: none; }
-    .footer-nav-links a {
-      font-size: 13px;
-      color: #a0a0b8;
-      transition: color var(--transition-fast);
-      position: relative;
-      padding-bottom: 1px;
-    }
-    .footer-nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 1px;
-      background: var(--gradient-fire);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .footer-nav-links a:hover { color: #FFCB05; }
-    .footer-nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
-    .footer-socials { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
-    .footer-socials-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #8888a0; margin-bottom: 4px; }
-    .footer-social-links { display: flex; gap: 8px; }
-    .footer-social-links a {
-      display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 8px;
-      color: #8888a0;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .footer-social-links a:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); color: #fff; }
-    .footer-social-links a.social-pump:hover { background: rgba(0,209,140,0.15); border-color: rgba(0,209,140,0.3); color: #00d18c; }
-    .footer-social-links a.social-x:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-    .footer-social-links a.social-github:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-    .footer-social-links a.social-medium:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-    .footer-social-links svg { width: 16px; height: 16px; }
+    .footer-tagline { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 480px; }
     .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 20px 0;
-      text-align: center;
-      font-size: 12px;
-      color: #666680;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-dim);
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      width: 100%;
     }
-    .footer-bottom-dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--red); opacity: 0.5; }
+    .footer-bottom-dot { display: inline-block; width: 3px; height: 3px; border-radius: 50%; background: var(--red); opacity: 0.4; }
 
     /* ═══════════════════════════════════════════
        ANIMATIONS
@@ -1914,7 +1881,7 @@
 
     /* Enhanced Type Animations */
     .poke-card:not(.empty):hover {
-      box-shadow: 0 0 30px color-mix(in srgb, var(--type-color, #A8A878) 15%, transparent);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--type-color, #A8A878) 22%, transparent), 0 4px 16px rgba(0,0,0,0.06);
     }
     .pokeball-divider svg {
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1937,11 +1904,11 @@
     .poke-card:hover .poke-type-badge::after { left: 100%; }
     /* Type-colored glow on feature cards */
     .feature-card:hover {
-      box-shadow: 0 0 40px color-mix(in srgb, var(--feature-color, var(--red)) 12%, transparent);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--feature-color, var(--red)) 18%, transparent), 0 4px 16px rgba(0,0,0,0.06);
     }
     /* Stat card glow */
     .stat-card:hover {
-      box-shadow: 0 0 40px color-mix(in srgb, var(--stat-color, var(--red)) 20%, transparent);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--stat-color, var(--red)) 25%, transparent), 0 4px 16px rgba(0,0,0,0.06);
     }
     /* Badge earned pulse on hover */
     .gym-badge.earned:hover .gym-badge-icon {
@@ -2037,9 +2004,7 @@
       .gym-badge { width: 60px; height: 60px; }
       .arch-row { flex-direction: column; gap: 4px; }
       .arch-arrow { transform: rotate(90deg); }
-      .footer-main { grid-template-columns: 1fr; text-align: center; gap: 32px; }
-      .footer-brand { align-items: center; }
-      .footer-socials { align-items: center; }
+      .footer-inner { padding: 24px 0 20px; }
       .sessions-table th:nth-child(n+5), .sessions-table td:nth-child(n+5) { display: none; }
       .battle-stats-row { gap: 12px; }
     }
@@ -2604,45 +2569,23 @@
   <footer>
     <div class="footer-divider">
       <div class="pokeball-divider">
-        <div class="pokeball-divider-line" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);"></div>
+        <div class="pokeball-divider-line"></div>
         <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" fill="#FFFFFF"/><path d="M4,50 A46,46 0 0,1 96,50 Z" fill="#DC2626"/><circle cx="50" cy="50" r="46" stroke="#333" stroke-width="3" fill="none"/><rect x="4" y="48" width="92" height="4" fill="#333"/><circle cx="50" cy="50" r="12" fill="#333"/><circle cx="50" cy="50" r="8" fill="#FFFFFF" stroke="#333" stroke-width="2"/></svg>
-        <div class="pokeball-divider-line" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);"></div>
+        <div class="pokeball-divider-line"></div>
       </div>
     </div>
     <div class="container">
-      <div class="footer-main">
-        <div class="footer-brand">
-          <div class="footer-brand-name">
-            <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="#f8f4f0"/><circle cx="50" cy="50" r="14" stroke="#1a1a2e" stroke-width="5" fill="#F5F5F8"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
-            Pokemon AI
-          </div>
-          <div class="footer-tagline">An autonomous AI agent that plays Pokemon FireRed using computer vision and large language models.</div>
-          <div class="footer-copyright">&copy; 2026 Pokemon AI. All rights reserved.</div>
+      <div class="footer-inner">
+        <div class="footer-brand-name">
+          <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="14" stroke="#333" stroke-width="5" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
+          Pokemon AI
         </div>
-        <div class="footer-nav">
-          <div class="footer-nav-title">Navigation</div>
-          <ul class="footer-nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="#pokedex">Pokedex</a></li>
-            <li><a href="#journey">Journey</a></li>
-            <li><a href="#stats">Stats</a></li>
-          </ul>
+        <div class="footer-tagline">An autonomous AI agent that plays Pokemon FireRed using computer vision and large language models.</div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 Pokemon AI</span>
+          <span class="footer-bottom-dot"></span>
+          <span>Built with Gemini 2.0 Flash + Python</span>
         </div>
-        <div class="footer-socials">
-          <div class="footer-socials-title">Connect</div>
-          <div class="footer-social-links">
-            <a class="social-pump" href="#" target="_blank" rel="noopener" title="Pump.fun"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5v-2.2l-3.5-3.5L9 10.3l2 2V6.5h2v5.8l2-2 1.5 1.5-3.5 3.5v2.2h-2z"/></svg></a>
-            <a class="social-x" href="#" target="_blank" rel="noopener" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-            <a class="social-github" href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank" rel="noopener" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg></a>
-            <a class="social-medium" href="#" target="_blank" rel="noopener" title="Medium"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span class="footer-bottom-dot"></span>
-        Built with Gemini 2.0 Flash + Python
-        <span class="footer-bottom-dot"></span>
       </div>
     </div>
   </footer>
