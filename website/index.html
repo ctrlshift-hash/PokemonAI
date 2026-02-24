@@ -274,6 +274,20 @@
       transition: opacity var(--transition-base);
     }
     .card-glow:hover::before { opacity: 0.8; }
+    .card:not(.stat-card):not(.poke-card)::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), rgba(255,255,255,0.15), rgba(255,255,255,0.08), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .card:not(.stat-card):not(.poke-card):hover::after {
+      animation: card-shimmer-sweep 0.6s ease forwards;
+    }
 
     /* ═══════════════════════════════════════════
        SKELETON LOADING
@@ -430,8 +444,24 @@
       font-weight: 500;
       color: var(--text-muted);
       transition: color var(--transition-fast);
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient-fire);
+      border-radius: 1px;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
     .nav-status {
       display: flex;
       align-items: center;
@@ -589,14 +619,18 @@
       padding: 20px 32px;
       text-align: center;
       min-width: 140px;
+      transition: background var(--transition-base);
     }
+    .hero-metric:hover { background: #FFF8F6; }
     .hero-metric-value {
       font-family: var(--font-mono);
       font-size: 22px;
       font-weight: 700;
       color: var(--text-primary);
       margin-bottom: 4px;
+      transition: all var(--transition-base);
     }
+    .hero-metric:hover .hero-metric-value { color: var(--red); transform: scale(1.05); }
     .hero-metric-label {
       font-size: 11px;
       font-weight: 600;
@@ -720,6 +754,7 @@
       background: color-mix(in srgb, var(--feature-color, var(--red)) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--feature-color, var(--red)) 15%, transparent);
     }
+    .feature-card:hover .feature-icon { animation: icon-wiggle 0.5s ease; }
     .feature-icon img {
       width: 28px;
       height: 28px;
@@ -810,6 +845,7 @@
     .highlight-card.unlocked .highlight-icon {
       animation: highlight-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .highlight-card.unlocked:hover .highlight-icon { animation: icon-wiggle 0.5s ease; }
     @keyframes highlight-pop {
       0% { transform: scale(0.8); }
       50% { transform: scale(1.15); }
@@ -1229,11 +1265,23 @@
       border-color: var(--badge-color);
       background: color-mix(in srgb, var(--badge-color) 18%, transparent);
       box-shadow: 0 0 30px color-mix(in srgb, var(--badge-color) 30%, transparent);
+      position: relative;
+      overflow: hidden;
+    }
+    .gym-badge.earned::after {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--badge-color) 40%, white) 0%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
     }
     .gym-badge.earned:hover {
       transform: scale(1.15) translateY(-2px);
       box-shadow: 0 0 45px color-mix(in srgb, var(--badge-color) 50%, transparent);
     }
+    .gym-badge.earned:hover::after { animation: badge-gleam 0.7s ease forwards; }
     .gym-badge-icon {
       font-size: 22px;
       font-weight: 800;
@@ -1608,6 +1656,13 @@
       color: var(--text-primary);
       margin-bottom: 4px;
       line-height: 1.2;
+      transition: all var(--transition-base);
+    }
+    .stat-card:hover .stat-value {
+      color: var(--stat-color, var(--red));
+      text-shadow: 0 0 20px color-mix(in srgb, var(--stat-color, var(--red)) 30%, transparent);
+      transform: scale(1.05);
+      transform-origin: left;
     }
     .stat-label {
       font-size: 13px;
@@ -1664,6 +1719,10 @@
       position: relative;
     }
     .arch-node:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+    .arch-node.data:hover { border-color: var(--blue); box-shadow: 0 4px 24px rgba(75,141,248,0.2); }
+    .arch-node.ai:hover { border-color: var(--red-light); box-shadow: 0 4px 24px rgba(240,82,82,0.2); }
+    .arch-node.output:hover { border-color: var(--green); box-shadow: 0 4px 24px rgba(52,211,104,0.2); }
+    .arch-node.infra:hover { border-color: var(--orange); box-shadow: 0 4px 24px rgba(251,140,45,0.2); }
     .arch-node::before {
       content: '';
       position: absolute;
@@ -1712,7 +1771,10 @@
       background: rgba(220,38,38,0.06);
       border-color: rgba(220,38,38,0.15);
       color: var(--text-primary);
+      transform: scale(1.05) translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220,38,38,0.1);
     }
+    .tech-badge:active { transform: scale(0.98); }
 
     /* ═══════════════════════════════════════════
        ACTION LOG
@@ -1743,16 +1805,87 @@
        FOOTER
        ═══════════════════════════════════════════ */
     footer {
-      padding: 48px 0;
-      border-top: 1px solid var(--border);
+      padding: 0;
+      border-top: none;
       position: relative;
       z-index: 1;
+      background: linear-gradient(180deg, var(--bg-primary) 0%, #1a1a2e 5%, #1a1a2e 100%);
+      color: #a0a0b8;
     }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-left { display: flex; align-items: center; gap: 24px; font-size: 13px; color: var(--text-muted); }
-    .footer-right { display: flex; align-items: center; gap: 20px; }
-    .footer-stat { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
-    .footer-stat .val { color: var(--text-muted); }
+    .footer-divider { padding: 0 48px; position: relative; z-index: 2; }
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 48px;
+      padding: 56px 0 40px;
+      align-items: start;
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+    .footer-brand-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-pokemon);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #FFCB05;
+      text-shadow: -1px -1px 0 #2A75BB, 1px -1px 0 #2A75BB, -1px 1px 0 #2A75BB, 1px 1px 0 #2A75BB;
+    }
+    .footer-brand-name svg { width: 24px; height: 24px; }
+    .footer-tagline { font-size: 13px; color: #8888a0; line-height: 1.5; }
+    .footer-copyright { font-size: 12px; color: #666680; margin-top: 4px; }
+    .footer-nav { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .footer-nav-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #8888a0; margin-bottom: 4px; }
+    .footer-nav-links { display: flex; flex-direction: column; align-items: center; gap: 8px; list-style: none; }
+    .footer-nav-links a {
+      font-size: 13px;
+      color: #a0a0b8;
+      transition: color var(--transition-fast);
+      position: relative;
+      padding-bottom: 1px;
+    }
+    .footer-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background: var(--gradient-fire);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .footer-nav-links a:hover { color: #FFCB05; }
+    .footer-nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .footer-socials { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .footer-socials-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #8888a0; margin-bottom: 4px; }
+    .footer-social-links { display: flex; gap: 8px; }
+    .footer-social-links a {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px;
+      color: #8888a0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .footer-social-links a:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3); color: #fff; }
+    .footer-social-links a.social-pump:hover { background: rgba(0,209,140,0.15); border-color: rgba(0,209,140,0.3); color: #00d18c; }
+    .footer-social-links a.social-x:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .footer-social-links a.social-github:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .footer-social-links a.social-medium:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .footer-social-links svg { width: 16px; height: 16px; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 0;
+      text-align: center;
+      font-size: 12px;
+      color: #666680;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .footer-bottom-dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--red); opacity: 0.5; }
 
     /* ═══════════════════════════════════════════
        ANIMATIONS
@@ -1787,8 +1920,7 @@
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .pokeball-divider:hover svg {
-      opacity: 0.5;
-      transform: rotate(180deg);
+      animation: pokeball-bounce 0.5s ease forwards;
     }
     .poke-type-badge {
       transition: all var(--transition-fast);
@@ -1809,7 +1941,7 @@
     }
     /* Stat card glow */
     .stat-card:hover {
-      box-shadow: 0 0 30px color-mix(in srgb, var(--stat-color, var(--red)) 12%, transparent);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--stat-color, var(--red)) 20%, transparent);
     }
     /* Badge earned pulse on hover */
     .gym-badge.earned:hover .gym-badge-icon {
@@ -1827,6 +1959,28 @@
     @keyframes hero-pokeball-rotate {
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes card-shimmer-sweep {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    @keyframes icon-wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-8deg); }
+      40% { transform: rotate(8deg); }
+      60% { transform: rotate(-4deg); }
+      80% { transform: rotate(4deg); }
+    }
+    @keyframes badge-gleam {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.6; }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+    @keyframes pokeball-bounce {
+      0% { transform: rotate(0deg) translateY(0); opacity: 0.4; }
+      30% { transform: rotate(120deg) translateY(-5px); opacity: 0.55; }
+      60% { transform: rotate(160deg) translateY(-2px); opacity: 0.5; }
+      100% { transform: rotate(180deg) translateY(0); opacity: 0.5; }
     }
 
     /* ═══════════════════════════════════════════
@@ -1883,7 +2037,9 @@
       .gym-badge { width: 60px; height: 60px; }
       .arch-row { flex-direction: column; gap: 4px; }
       .arch-arrow { transform: rotate(90deg); }
-      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-main { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+      .footer-brand { align-items: center; }
+      .footer-socials { align-items: center; }
       .sessions-table th:nth-child(n+5), .sessions-table td:nth-child(n+5) { display: none; }
       .battle-stats-row { gap: 12px; }
     }
@@ -2446,17 +2602,47 @@
 
   <!-- ==================== FOOTER ==================== -->
   <footer>
+    <div class="footer-divider">
+      <div class="pokeball-divider">
+        <div class="pokeball-divider-line" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);"></div>
+        <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" fill="#FFFFFF"/><path d="M4,50 A46,46 0 0,1 96,50 Z" fill="#DC2626"/><circle cx="50" cy="50" r="46" stroke="#333" stroke-width="3" fill="none"/><rect x="4" y="48" width="92" height="4" fill="#333"/><circle cx="50" cy="50" r="12" fill="#333"/><circle cx="50" cy="50" r="8" fill="#FFFFFF" stroke="#333" stroke-width="2"/></svg>
+        <div class="pokeball-divider-line" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);"></div>
+      </div>
+    </div>
     <div class="container">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <span style="color: var(--text-primary); font-weight: 600;">Pokemon AI</span>
-          <span>Autonomous FireRed Agent</span>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="footer-brand-name">
+            <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="#f8f4f0"/><circle cx="50" cy="50" r="14" stroke="#1a1a2e" stroke-width="5" fill="#F5F5F8"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
+            Pokemon AI
+          </div>
+          <div class="footer-tagline">An autonomous AI agent that plays Pokemon FireRed using computer vision and large language models.</div>
+          <div class="footer-copyright">&copy; 2026 Pokemon AI. All rights reserved.</div>
         </div>
-        <div class="footer-right">
-          <div class="footer-stat">Memories: <span class="val" id="ft-memories">--</span></div>
-          <div class="footer-stat">Errors: <span class="val" id="ft-errors">--</span></div>
-          <a href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 13px;">GitHub</a>
+        <div class="footer-nav">
+          <div class="footer-nav-title">Navigation</div>
+          <ul class="footer-nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#pokedex">Pokedex</a></li>
+            <li><a href="#journey">Journey</a></li>
+            <li><a href="#stats">Stats</a></li>
+          </ul>
         </div>
+        <div class="footer-socials">
+          <div class="footer-socials-title">Connect</div>
+          <div class="footer-social-links">
+            <a class="social-pump" href="#" target="_blank" rel="noopener" title="Pump.fun"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5v-2.2l-3.5-3.5L9 10.3l2 2V6.5h2v5.8l2-2 1.5 1.5-3.5 3.5v2.2h-2z"/></svg></a>
+            <a class="social-x" href="#" target="_blank" rel="noopener" title="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a class="social-github" href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank" rel="noopener" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg></a>
+            <a class="social-medium" href="#" target="_blank" rel="noopener" title="Medium"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-dot"></span>
+        Built with Gemini 2.0 Flash + Python
+        <span class="footer-bottom-dot"></span>
       </div>
     </div>
   </footer>
@@ -2926,11 +3112,7 @@
       list.innerHTML = h;
     }
 
-    function renderFooter() {
-      if (!data) return;
-      setText('ft-memories', (data.total_memories||0).toLocaleString());
-      setText('ft-errors', (data.errors||0).toLocaleString());
-    }
+    function renderFooter() {}
 
     /* ═══════════════════════════════════════════
        BATTLE MODE
