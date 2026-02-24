@@ -2537,7 +2537,7 @@
       { id:'four_badges',    title:'Halfway There',        desc:'Earned 4 gym badges',                               icon:'dragon-scale',  color:'#F8D030', check: d => (d.game_state?.badge_count||0) >= 4 },
       { id:'ten_wins',       title:'Battle Veteran',       desc:'Won 10 Pokemon battles',                            icon:'sharp-beak',    color:'#C03028', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 10 },
       { id:'fifty_wins',     title:'Battle Master',        desc:'Won 50 Pokemon battles',                            icon:'master-ball',   color:'#DC2626', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 50 },
-      { id:'thousand_steps', title:'Road Warrior',         desc:'Walked 1,000 steps across Kanto',                   icon:'mach-bike',     color:'#A890F0', check: d => (d.player_stats?.steps_taken||0) >= 1000 },
+      { id:'thousand_steps', title:'Road Warrior',         desc:'Walked 1,000 steps across Kanto',                   icon:'quick-claw',    color:'#A890F0', check: d => (d.player_stats?.steps_taken||0) >= 1000 },
       { id:'level_20',       title:'Power Up',             desc:'Raised a Pokemon to level 20',                      icon:'rare-candy',    color:'#F8D030', check: d => (d.player_stats?.highest_level||0) >= 20 },
       { id:'level_40',       title:'Powerhouse',           desc:'Raised a Pokemon to level 40',                      icon:'protein',       color:'#F97316', check: d => (d.player_stats?.highest_level||0) >= 40 },
       { id:'rich',           title:'Money Maker',          desc:'Accumulated $10,000 in-game',                       icon:'amulet-coin',   color:'#F59E0B', check: d => (d.game_state?.money||0) >= 10000 },
