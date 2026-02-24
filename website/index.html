@@ -853,13 +853,12 @@
       line-height: 1.5;
     }
     .highlight-card.locked {
-      opacity: 0.3;
+      opacity: 0.35;
       filter: grayscale(0.6);
     }
     .highlight-card.locked:hover {
-      transform: none;
-      box-shadow: none;
-      background: var(--bg-surface-alt);
+      opacity: 0.55;
+      filter: grayscale(0.3);
     }
     .highlight-card.unlocked .highlight-icon {
       animation: highlight-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -912,6 +911,12 @@
     .phase-badge.menu { background: rgba(139,92,246,0.1); color: var(--purple); border: 1px solid rgba(139,92,246,0.2); }
     .phase-badge.title { background: rgba(249,115,22,0.1); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
     .phase-badge.transition { background: rgba(245,158,11,0.1); color: var(--gold); border: 1px solid rgba(245,158,11,0.2); }
+    .phase-badge { transition: all var(--transition-fast); cursor: default; }
+    .phase-badge:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .location-item { transition: all var(--transition-fast); }
+    .location-item:hover { transform: translateY(-2px); }
+    .location-item .value { transition: color var(--transition-fast); }
+    .location-item:hover .value { color: var(--red); }
     .location-sep { color: var(--text-dim); }
 
     /* ═══════════════════════════════════════════
@@ -1085,8 +1090,12 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      transition: all var(--transition-fast);
+      cursor: default;
     }
-    .mind-pipeline-step .step-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .mind-pipeline-step:hover { transform: scale(1.1) translateY(-2px); }
+    .mind-pipeline-step .step-dot { width: 6px; height: 6px; border-radius: 50%; transition: all var(--transition-fast); }
+    .mind-pipeline-step:hover .step-dot { transform: scale(1.5); box-shadow: 0 0 8px currentColor; }
     .mind-pipeline-arrow { color: var(--text-dim); font-size: 14px; }
 
     /* ═══════════════════════════════════════════
@@ -1162,11 +1171,15 @@
       font-family: var(--font-mono);
       font-size: 12px;
       color: var(--text-muted);
+      transition: all var(--transition-fast);
     }
+    .battle-stat-item:hover { transform: translateY(-2px); }
     .battle-stat-item .val {
       color: var(--text-primary);
       font-weight: 700;
+      transition: color var(--transition-fast);
     }
+    .battle-stat-item:hover .val { color: var(--red); }
 
     /* ═══════════════════════════════════════════
        TEAM
@@ -1227,7 +1240,9 @@
       margin-bottom: 12px;
       color: #fff;
       background: var(--type-color, #666);
+      transition: all var(--transition-fast);
     }
+    .poke-type-badge:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .hp-bar-container {
       width: 100%;
       height: 6px;
@@ -1256,7 +1271,9 @@
       border: 1px solid rgba(0,0,0,0.06);
       color: var(--text-secondary);
       text-transform: capitalize;
+      transition: all var(--transition-fast);
     }
+    .poke-move:hover { transform: scale(1.08) translateY(-2px); background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.15); color: var(--text-primary); box-shadow: 0 3px 8px rgba(0,0,0,0.06); }
     .poke-empty-label { color: var(--text-dim); font-size: 13px; font-weight: 500; }
 
     /* ═══════════════════════════════════════════
@@ -1281,6 +1298,13 @@
       border: 2px solid rgba(0,0,0,0.08);
       background: rgba(0,0,0,0.02);
       transition: all var(--transition-base);
+      cursor: pointer;
+    }
+    .gym-badge:not(.earned):hover {
+      transform: scale(1.1) translateY(-3px);
+      border-color: rgba(0,0,0,0.15);
+      background: rgba(0,0,0,0.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     }
     .gym-badge.earned {
       border-color: var(--badge-color);
@@ -1342,11 +1366,15 @@
       font-family: var(--font-mono);
       font-size: 13px;
       color: var(--text-muted);
+      transition: all var(--transition-fast);
     }
+    .pokedex-stat:hover { transform: translateY(-2px); color: var(--text-primary); }
     .pokedex-stat .val {
       color: var(--text-primary);
       font-weight: 700;
+      transition: color var(--transition-fast);
     }
+    .pokedex-stat:hover .val { color: var(--red); }
     .pokedex-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
@@ -1367,10 +1395,11 @@
       overflow: hidden;
     }
     .dex-cell:hover {
-      background: rgba(0,0,0,0.04);
-      border-color: rgba(0,0,0,0.1);
-      transform: scale(1.1);
+      background: rgba(220,38,38,0.05);
+      border-color: rgba(220,38,38,0.2);
+      transform: scale(1.15) translateY(-3px);
       z-index: 2;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     }
     .dex-cell .dex-num {
       font-family: var(--font-mono);
@@ -1764,8 +1793,10 @@
     .arch-arrow { color: var(--text-dim); font-size: 18px; flex-shrink: 0; font-family: var(--font-mono); }
     .arch-arrow-down { display: flex; justify-content: center; color: var(--text-dim); font-size: 18px; font-family: var(--font-mono); }
     .arch-legend { display: flex; justify-content: center; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
-    .arch-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
-    .arch-legend-dot { width: 10px; height: 3px; border-radius: 2px; }
+    .arch-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); transition: all var(--transition-fast); cursor: default; }
+    .arch-legend-item:hover { transform: translateY(-2px); color: var(--text-primary); }
+    .arch-legend-dot { width: 10px; height: 3px; border-radius: 2px; transition: all var(--transition-fast); }
+    .arch-legend-item:hover .arch-legend-dot { transform: scaleX(1.5); }
 
     /* ═══════════════════════════════════════════
        TECH STACK
