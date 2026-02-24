@@ -444,10 +444,14 @@
     }
     .nav-status .dot.offline { background: var(--red); box-shadow: 0 0 8px var(--red); animation: none; }
     .nav-socials {
+      position: fixed;
+      right: 24px;
+      top: 0;
+      height: 56px;
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-left: auto;
+      z-index: 101;
     }
     .nav-socials a {
       display: flex;
