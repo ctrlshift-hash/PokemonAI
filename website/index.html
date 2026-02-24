@@ -670,18 +670,20 @@
     }
     .feature-card:hover::before { opacity: 1; }
     .feature-icon {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--feature-color, var(--red));
       background: color-mix(in srgb, var(--feature-color, var(--red)) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--feature-color, var(--red)) 15%, transparent);
+    }
+    .feature-icon img {
+      width: 28px;
+      height: 28px;
+      image-rendering: pixelated;
     }
     .feature-title {
       font-size: 16px;
@@ -735,12 +737,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      font-weight: 800;
       flex-shrink: 0;
-      color: var(--hl-color, var(--gold));
       background: color-mix(in srgb, var(--hl-color, var(--gold)) 10%, transparent);
       border: 1px solid color-mix(in srgb, var(--hl-color, var(--gold)) 15%, transparent);
+    }
+    .highlight-icon img {
+      width: 28px;
+      height: 28px;
+      image-rendering: pixelated;
     }
     .highlight-info { flex: 1; min-width: 0; }
     .highlight-title {
@@ -1973,32 +1977,32 @@
 
       <div class="features-grid">
         <div class="card card-fire feature-card reveal reveal-delay-1" style="--feature-color: var(--blue);">
-          <div class="feature-icon" style="--feature-color: var(--blue);">V</div>
+          <div class="feature-icon" style="--feature-color: var(--blue);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/scope-lens.png" alt="Vision"></div>
           <div class="feature-title">Computer Vision</div>
           <div class="feature-desc">Captures the game screen twice per second and sends it to Gemini 2.0 Flash for visual analysis. The AI reads text, identifies Pokemon, and understands spatial context from raw pixels.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-2" style="--feature-color: var(--purple);">
-          <div class="feature-icon" style="--feature-color: var(--purple);">R</div>
+          <div class="feature-icon" style="--feature-color: var(--purple);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/choice-specs.png" alt="Reasoning"></div>
           <div class="feature-title">Strategic Reasoning</div>
           <div class="feature-desc">The LLM analyzes each frame alongside game memory data, considers current goals and battle type effectiveness, then reasons through the optimal next action to take.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-3" style="--feature-color: var(--green);">
-          <div class="feature-icon" style="--feature-color: var(--green);">C</div>
+          <div class="feature-icon" style="--feature-color: var(--green);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/expert-belt.png" alt="Control"></div>
           <div class="feature-title">Autonomous Control</div>
           <div class="feature-desc">Decisions are translated into keyboard inputs via pydirectinput. The AI controls A, B, Start, Select, and the D-pad &mdash; the same buttons a human would use. No human in the loop.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-4" style="--feature-color: var(--orange);">
-          <div class="feature-icon" style="--feature-color: var(--orange);">M</div>
+          <div class="feature-icon" style="--feature-color: var(--orange);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/town-map.png" alt="Memory"></div>
           <div class="feature-title">Persistent Memory</div>
           <div class="feature-desc">A ChromaDB vector database stores memories about locations, NPCs, items, and events. The AI retrieves relevant past experiences to inform current decisions, just like a real player would.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-5" style="--feature-color: var(--red-light);">
-          <div class="feature-icon" style="--feature-color: var(--red-light);">B</div>
+          <div class="feature-icon" style="--feature-color: var(--red-light);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/black-belt.png" alt="Battle"></div>
           <div class="feature-title">Battle Intelligence</div>
           <div class="feature-desc">A built-in type effectiveness engine analyzes matchups and recommends optimal moves. The AI knows that Water beats Fire, Electric beats Water, and plans its battle strategy accordingly.</div>
         </div>
         <div class="card card-fire feature-card reveal reveal-delay-6" style="--feature-color: var(--gold);">
-          <div class="feature-icon" style="--feature-color: var(--gold);">G</div>
+          <div class="feature-icon" style="--feature-color: var(--gold);"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/old-sea-map.png" alt="Planning"></div>
           <div class="feature-title">Goal Planning</div>
           <div class="feature-desc">A 22-milestone progression tree guides the AI from Professor Oak's lab to the Elite Four. Goals auto-advance as milestones are completed, keeping the AI focused on long-term progress.</div>
         </div>
@@ -2399,6 +2403,7 @@
     const API = 'https://runescape-production-41f8.up.railway.app';
     const POLL_MS = 5000;
     const SPRITE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
+    const ITEM_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items';
 
     const BADGE_DATA = [
       { name: 'Boulder', icon: 'B', type: 'Rock',     color: '#B8A038' },
@@ -2522,20 +2527,20 @@
 
     /* Highlight / Milestone definitions */
     const HIGHLIGHT_DEFS = [
-      { id:'first_decision', title:'First Decision',     desc:'The AI made its very first decision',               icon:'1',  color:'#78C850', check: d => (d.tick||0) >= 1 },
-      { id:'century',        title:'Thinking Machine',    desc:'Made 100 AI decisions',                             icon:'C',  color:'#F85888', check: d => (d.tick||0) >= 100 },
-      { id:'thousand_ticks', title:'Thousand Minds',      desc:'Reached 1,000 decision cycles',                     icon:'K',  color:'#7038F8', check: d => (d.tick||0) >= 1000 },
-      { id:'first_catch',    title:'Gotta Start Somewhere', desc:'Caught the first Pokemon',                        icon:'P',  color:'#6890F0', check: d => (d.player_stats?.pokemon_caught||0) >= 1 },
-      { id:'five_caught',    title:'Collector',            desc:'Caught 5 different Pokemon',                        icon:'5',  color:'#A890F0', check: d => (d.player_stats?.pokemon_caught||0) >= 5 },
-      { id:'full_team',      title:'Full Squad',           desc:'Assembled a full team of 6 Pokemon',                icon:'6',  color:'#F08030', check: d => (d.game_state?.party||[]).filter(p=>p&&p.species_id).length >= 6 },
-      { id:'first_badge',    title:'Badge Collector',      desc:'Earned the first gym badge',                        icon:'B',  color:'#B8A038', check: d => (d.game_state?.badge_count||0) >= 1 },
-      { id:'four_badges',    title:'Halfway There',        desc:'Earned 4 gym badges',                               icon:'4',  color:'#F8D030', check: d => (d.game_state?.badge_count||0) >= 4 },
-      { id:'ten_wins',       title:'Battle Veteran',       desc:'Won 10 Pokemon battles',                            icon:'W',  color:'#C03028', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 10 },
-      { id:'fifty_wins',     title:'Battle Master',        desc:'Won 50 Pokemon battles',                            icon:'50', color:'#DC2626', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 50 },
-      { id:'thousand_steps', title:'Road Warrior',         desc:'Walked 1,000 steps across Kanto',                   icon:'S',  color:'#A890F0', check: d => (d.player_stats?.steps_taken||0) >= 1000 },
-      { id:'level_20',       title:'Power Up',             desc:'Raised a Pokemon to level 20',                      icon:'Lv', color:'#F8D030', check: d => (d.player_stats?.highest_level||0) >= 20 },
-      { id:'level_40',       title:'Powerhouse',           desc:'Raised a Pokemon to level 40',                      icon:'40', color:'#F97316', check: d => (d.player_stats?.highest_level||0) >= 40 },
-      { id:'rich',           title:'Money Maker',          desc:'Accumulated $10,000 in-game',                       icon:'$',  color:'#F59E0B', check: d => (d.game_state?.money||0) >= 10000 },
+      { id:'first_decision', title:'First Decision',     desc:'The AI made its very first decision',               icon:'poke-ball',     color:'#78C850', check: d => (d.tick||0) >= 1 },
+      { id:'century',        title:'Thinking Machine',    desc:'Made 100 AI decisions',                             icon:'great-ball',    color:'#F85888', check: d => (d.tick||0) >= 100 },
+      { id:'thousand_ticks', title:'Thousand Minds',      desc:'Reached 1,000 decision cycles',                     icon:'ultra-ball',    color:'#7038F8', check: d => (d.tick||0) >= 1000 },
+      { id:'first_catch',    title:'Gotta Start Somewhere', desc:'Caught the first Pokemon',                        icon:'net-ball',      color:'#6890F0', check: d => (d.player_stats?.pokemon_caught||0) >= 1 },
+      { id:'five_caught',    title:'Collector',            desc:'Caught 5 different Pokemon',                        icon:'repeat-ball',   color:'#A890F0', check: d => (d.player_stats?.pokemon_caught||0) >= 5 },
+      { id:'full_team',      title:'Full Squad',           desc:'Assembled a full team of 6 Pokemon',                icon:'exp-share',     color:'#F08030', check: d => (d.game_state?.party||[]).filter(p=>p&&p.species_id).length >= 6 },
+      { id:'first_badge',    title:'Badge Collector',      desc:'Earned the first gym badge',                        icon:'thunder-stone', color:'#B8A038', check: d => (d.game_state?.badge_count||0) >= 1 },
+      { id:'four_badges',    title:'Halfway There',        desc:'Earned 4 gym badges',                               icon:'fire-stone',    color:'#F8D030', check: d => (d.game_state?.badge_count||0) >= 4 },
+      { id:'ten_wins',       title:'Battle Veteran',       desc:'Won 10 Pokemon battles',                            icon:'x-attack',      color:'#C03028', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 10 },
+      { id:'fifty_wins',     title:'Battle Master',        desc:'Won 50 Pokemon battles',                            icon:'master-ball',   color:'#DC2626', check: d => (d.player_stats?.battles_won||d.battle_stats?.battles_won||0) >= 50 },
+      { id:'thousand_steps', title:'Road Warrior',         desc:'Walked 1,000 steps across Kanto',                   icon:'mach-bike',     color:'#A890F0', check: d => (d.player_stats?.steps_taken||0) >= 1000 },
+      { id:'level_20',       title:'Power Up',             desc:'Raised a Pokemon to level 20',                      icon:'rare-candy',    color:'#F8D030', check: d => (d.player_stats?.highest_level||0) >= 20 },
+      { id:'level_40',       title:'Powerhouse',           desc:'Raised a Pokemon to level 40',                      icon:'protein',       color:'#F97316', check: d => (d.player_stats?.highest_level||0) >= 40 },
+      { id:'rich',           title:'Money Maker',          desc:'Accumulated $10,000 in-game',                       icon:'nugget',        color:'#F59E0B', check: d => (d.game_state?.money||0) >= 10000 },
     ];
 
     /* ═══════════════════════════════════════════
@@ -3037,7 +3042,7 @@
         const unlocked = data ? hl.check(data) : false;
         const cls = unlocked ? 'unlocked' : 'locked';
         h += '<div class="card highlight-card ' + cls + ' reveal reveal-delay-' + Math.min(i+1, 6) + '" style="--hl-color:' + hl.color + ';">' +
-          '<div class="highlight-icon" style="--hl-color:' + hl.color + ';">' + hl.icon + '</div>' +
+          '<div class="highlight-icon" style="--hl-color:' + hl.color + ';"><img src="' + ITEM_SPRITE + '/' + hl.icon + '.png" alt="' + hl.title + '"></div>' +
           '<div class="highlight-info">' +
           '<div class="highlight-title">' + hl.title + '</div>' +
           '<div class="highlight-desc">' + hl.desc + '</div>' +
