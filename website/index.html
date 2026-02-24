@@ -2754,7 +2754,7 @@
       const dot = qs('#nav-status .dot'), text = $('nav-status-text'), chip = $('hero-live-chip');
       if (online) {
         dot.classList.remove('offline');
-        text.textContent = data ? 'Tick ' + (data.tick || 0).toLocaleString() : 'Connected';
+        text.textContent = 'Online';
         if (chip) { chip.classList.remove('offline-chip'); chip.innerHTML = '<span class="dot"></span> LIVE'; }
       } else if (usingDemo) {
         dot.classList.add('offline');
