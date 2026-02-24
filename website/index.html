@@ -2566,6 +2566,20 @@
       $('loc-phase').innerHTML = '<span class="phase-badge ' + p.cls + '">' + p.label + '</span>';
     }
 
+    function renderScreenshot() {
+      if (!data || !data.screenshot) return;
+      const img = $('game-screenshot');
+      const placeholder = $('game-placeholder');
+      if (img) {
+        img.src = 'data:image/jpeg;base64,' + data.screenshot;
+        img.style.display = 'block';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+      }
+      if (placeholder) placeholder.style.display = 'none';
+    }
+
     function renderMind() {
       if (!data) return;
       setText('mind-observe', data.observation || 'No observation');
@@ -2808,7 +2822,7 @@
     }
 
     function render() {
-      renderNavStatus(); renderHero(); renderLocation(); renderMind();
+      renderNavStatus(); renderHero(); renderLocation(); renderScreenshot(); renderMind();
       renderBattleMode(); renderTeam(); renderBadges(); renderPokedex();
       renderJourney(); renderStats(); renderHighlights();
       renderLog(); renderFooter(); renderSessions();

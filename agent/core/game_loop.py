@@ -260,7 +260,7 @@ class GameLoop:
 
         # 16. Push to dashboard
         if self.loop_count % settings.DB_UPDATE_INTERVAL == 0:
-            self._push_dashboard(game_state, analysis, tick_start)
+            self._push_dashboard(game_state, analysis, tick_start, screenshot_b64)
 
         # 17. Periodic session update
         if self.session_id and self.loop_count % 10 == 0:
@@ -382,7 +382,7 @@ class GameLoop:
 
         return "\n".join(parts) if parts else ""
 
-    def _push_dashboard(self, game_state, analysis, tick_start):
+    def _push_dashboard(self, game_state, analysis, tick_start, screenshot_b64=None):
         """Push current state to PostgreSQL for the live dashboard."""
         try:
             latency_ms = int((time.time() - tick_start) * 1000)
@@ -405,6 +405,9 @@ class GameLoop:
                 "battle_stats": self.battle.to_dict(),
                 "goals": self.planner.get_goals_snapshot(),
             }
+
+            if screenshot_b64:
+                feed_data["screenshot"] = screenshot_b64
 
             push_live_feed(feed_data)
         except Exception as e:
