@@ -1250,7 +1250,7 @@
       justify-content: center;
       position: relative;
       transition: all var(--transition-fast);
-      cursor: default;
+      cursor: pointer;
       overflow: hidden;
     }
     .dex-cell:hover {
@@ -1318,7 +1318,6 @@
       text-transform: capitalize;
     }
     .dex-cell:hover .dex-cell-tooltip { opacity: 1; }
-    .dex-cell.seen, .dex-cell.caught { cursor: pointer; }
 
     /* Pokedex Detail Modal */
     .dex-modal-overlay {
@@ -3023,7 +3022,6 @@
     $('pokedex-grid').addEventListener('click', function(e) {
       const cell = e.target.closest('.dex-cell');
       if (!cell) return;
-      if (!cell.classList.contains('seen') && !cell.classList.contains('caught')) return;
       const id = parseInt(cell.id.replace('dex-', ''), 10);
       if (id >= 1 && id <= 151) openDexModal(id);
     });
