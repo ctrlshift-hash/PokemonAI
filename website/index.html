@@ -3511,6 +3511,10 @@
           e.preventDefault();
           const t = document.querySelector(a.getAttribute('href'));
           if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (a.closest('.nav-links')) {
+            qsa('.nav-links a').forEach(l => l.classList.remove('active'));
+            a.classList.add('active');
+          }
         });
       });
     }
