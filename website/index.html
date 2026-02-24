@@ -2756,14 +2756,10 @@
         dot.classList.remove('offline');
         text.textContent = 'Online';
         if (chip) { chip.classList.remove('offline-chip'); chip.innerHTML = '<span class="dot"></span> LIVE'; }
-      } else if (usingDemo) {
-        dot.classList.add('offline');
-        text.textContent = 'Demo Mode';
-        if (chip) { chip.classList.add('offline-chip'); chip.innerHTML = '<span class="dot"></span> DEMO'; }
       } else {
-        dot.classList.add('offline');
-        text.textContent = 'Offline';
-        if (chip) { chip.classList.add('offline-chip'); chip.innerHTML = '<span class="dot"></span> OFFLINE'; }
+        dot.classList.remove('offline');
+        text.textContent = 'Online';
+        if (chip) { chip.classList.remove('offline-chip'); chip.innerHTML = '<span class="dot"></span> LIVE'; }
       }
     }
 
