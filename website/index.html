@@ -253,13 +253,19 @@
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 12px 32px rgba(220,38,38,0.1), 0 4px 16px rgba(0,0,0,0.08), var(--shadow-glow);
     }
-    .mind-card:hover,
+    .mind-card:hover {
+      transform: none !important;
+      box-shadow: var(--shadow-sm) !important;
+      background: inherit !important;
+      border-color: rgba(0,0,0,0.06) !important;
+      border-top-color: rgba(220,38,38,0.25) !important;
+      cursor: default;
+    }
+    .mind-card.card-glow:hover::before { opacity: 0.5 !important; }
+    .mind-card:hover::after { animation: none !important; display: none !important; }
     .battle-overlay:hover {
       transform: none !important;
       box-shadow: var(--shadow-sm) !important;
-      background: var(--bg-surface-alt) !important;
-      border-color: rgba(0,0,0,0.06) !important;
-      border-top-color: rgba(220,38,38,0.25) !important;
     }
     .card-fire {
       background: var(--bg-surface);
