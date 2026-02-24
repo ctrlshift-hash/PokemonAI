@@ -443,16 +443,17 @@
       font-size: 13px;
       font-weight: 500;
       color: var(--text-muted);
-      transition: color var(--transition-fast);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      padding-bottom: 2px;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
     .nav-links a::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
+      bottom: 2px;
+      left: 12px;
+      right: 12px;
       height: 2px;
       background: var(--gradient-fire);
       border-radius: 1px;
@@ -460,8 +461,21 @@
       transform-origin: right;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover {
+      color: var(--text-primary);
+      background: rgba(220,38,38,0.06);
+      transform: translateY(-3px);
+    }
     .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-links a.active {
+      color: var(--red);
+      font-weight: 600;
+      background: rgba(220,38,38,0.08);
+    }
+    .nav-links a.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
     .nav-status {
       display: flex;
       align-items: center;
@@ -3411,6 +3425,29 @@
     }
 
     /* ═══════════════════════════════════════════
+       SCROLL SPY - highlight active nav link
+       ═══════════════════════════════════════════ */
+    function initScrollSpy() {
+      var navLinks = qsa('.nav-links a');
+      var sections = [];
+      navLinks.forEach(function(a) {
+        var id = a.getAttribute('href').replace('#', '');
+        var sec = $(id);
+        if (sec) sections.push({ id: id, el: sec, link: a });
+      });
+      var spyObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            navLinks.forEach(function(a) { a.classList.remove('active'); });
+            var match = sections.find(function(s) { return s.id === e.target.id; });
+            if (match) match.link.classList.add('active');
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
+      sections.forEach(function(s) { spyObs.observe(s.el); });
+    }
+
+    /* ═══════════════════════════════════════════
        CANVAS PARTICLES (warm-toned)
        ═══════════════════════════════════════════ */
     function initCanvas() {
@@ -3488,7 +3525,7 @@
     }
 
     async function init() {
-      initCanvas(); initNavScroll(); initSmoothScroll(); observeReveals();
+      initCanvas(); initNavScroll(); initSmoothScroll(); initScrollSpy(); observeReveals();
       showSkeletons(); buildPokedex(); renderHighlights();
       observeReveals();
       const [ok] = await Promise.all([fetchFeed(), fetchSessions()]);
