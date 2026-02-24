@@ -72,20 +72,37 @@ local function rshift(a, n)
 end
 
 -- ═══════════════════════════════════════════════════════════
--- FireRed v1.0 US RAM Addresses
+-- FireRed US RAM Addresses (v1.0 & v1.1)
 -- ═══════════════════════════════════════════════════════════
 
 local ADDR = {
-    PLAYER_X     = 0x02037078,  -- 2 bytes
-    PLAYER_Y     = 0x0203707A,  -- 2 bytes
-    MAP_ID       = 0x02031DBC,  -- 1 byte
-    MONEY        = 0x02025F04,  -- 4 bytes
-    BADGES       = 0x02025F00,  -- 1 byte (each bit = 1 badge)
+    -- Fixed addresses (from BPRE.ld linker script)
     PARTY_COUNT  = 0x02024029,  -- 1 byte
     PARTY_BASE   = 0x02024284,  -- each Pokemon struct is 100 bytes
-    IN_BATTLE    = 0x030030F0,  -- 0=none, 1=wild, 2=trainer
-    POKEDEX_SEEN   = 0x02025F2C,  -- 52 bytes, bit flags
-    POKEDEX_CAUGHT = 0x02025F60,  -- 52 bytes, bit flags
+    BATTLERS_COUNT    = 0x02023BCC,  -- u8: 0=not in battle, 2+=in battle
+    BATTLE_TYPE_FLAGS = 0x02022B4C,  -- u32: bit 3 (0x8) = trainer battle
+    BATTLE_OUTCOME    = 0x02023E8A,  -- u8: 0=ongoing, 1=won, 2=lost, 4=ran, 7=caught
+
+    -- SaveBlock pointers (IRAM) - dereference to get actual data
+    SAVE_BLOCK1_PTR = 0x03005008, -- map data: pos, money, badges, items
+    SAVE_BLOCK2_PTR = 0x0300500C, -- personal data: pokedex, trainer info
+
+    -- SaveBlock1 offsets (from pokefirered decomp)
+    SB1_POS_X    = 0x0000,  -- s16 player X
+    SB1_POS_Y    = 0x0002,  -- s16 player Y
+    SB1_MAP_NUM  = 0x0005,  -- u8 map number
+    SB1_MAP_GRP  = 0x0004,  -- u8 map group/bank
+    SB1_MONEY    = 0x0290,  -- u32 money (XOR encrypted)
+    SB1_FLAGS    = 0x0EE0,  -- flag array base
+
+    -- SaveBlock2 offsets
+    SB2_CAUGHT   = 0x0028,  -- 52 bytes, pokedex caught bit flags
+    SB2_SEEN     = 0x005C,  -- 52 bytes, pokedex seen bit flags
+    SB2_MONEY_KEY = 0x0F20, -- 4 bytes, money XOR encryption key
+
+    -- Badge flags: FLAG_BADGE01_GET = 0x820 (2080)
+    -- All 8 badges in one byte at flags + (2080/8) = flags + 260 = flags + 0x104
+    BADGE_FLAG_BYTE = 0x104, -- offset from SB1_FLAGS
 }
 
 -- Unencrypted battle stat offsets (within each 100-byte party slot)
@@ -174,28 +191,61 @@ end
 local function read_game_state()
     local state = {}
 
-    -- Player position
-    state.player_x = emu:read16(ADDR.PLAYER_X)
-    state.player_y = emu:read16(ADDR.PLAYER_Y)
-    state.map_id = emu:read8(ADDR.MAP_ID)
+    -- Read SaveBlock pointers
+    local sb1 = emu:read32(ADDR.SAVE_BLOCK1_PTR)
+    local sb2 = emu:read32(ADDR.SAVE_BLOCK2_PTR)
+    local sb1_valid = sb1 ~= 0 and sb1 >= 0x02000000 and sb1 < 0x03000000
+    local sb2_valid = sb2 ~= 0 and sb2 >= 0x02000000 and sb2 < 0x03000000
 
-    -- Money (stored as BCD in FireRed, read as raw 4 bytes)
-    state.money = emu:read32(ADDR.MONEY)
+    -- Debug: log pointer values
+    state._sb1_ptr = string.format("0x%08X", sb1)
+    state._sb2_ptr = string.format("0x%08X", sb2)
 
-    -- Badges
-    local badge_byte = emu:read8(ADDR.BADGES)
-    -- Clamp to valid range (0-255, but only lower 8 bits matter)
-    state.badges = badge_byte
-    state.badge_count = count_badges(badge_byte)
+    -- Player position (from SaveBlock1)
+    if sb1_valid then
+        state.player_x = emu:read16(sb1 + ADDR.SB1_POS_X)
+        state.player_y = emu:read16(sb1 + ADDR.SB1_POS_Y)
+        state.map_id = emu:read8(sb1 + ADDR.SB1_MAP_NUM)
+    else
+        state.player_x = 0
+        state.player_y = 0
+        state.map_id = 0
+    end
 
-    -- Battle state
-    local battle_raw = emu:read8(ADDR.IN_BATTLE)
-    -- Only 0=none, 1=wild, 2=trainer are valid; treat anything else as 0
-    if battle_raw == 1 or battle_raw == 2 then
-        state.in_battle = battle_raw
+    -- Money (XOR encrypted: money = raw XOR key)
+    if sb1_valid and sb2_valid then
+        local raw_money = emu:read32(sb1 + ADDR.SB1_MONEY)
+        local money_key = emu:read32(sb2 + ADDR.SB2_MONEY_KEY)
+        state.money = u32(bxor(raw_money, money_key))
+    else
+        state.money = 0
+    end
+
+    -- Badges (stored as flag bits in SaveBlock1 flags array)
+    if sb1_valid then
+        local badge_byte = emu:read8(sb1 + ADDR.SB1_FLAGS + ADDR.BADGE_FLAG_BYTE)
+        state.badges = badge_byte
+        state.badge_count = count_badges(badge_byte)
+    else
+        state.badges = 0
+        state.badge_count = 0
+    end
+
+    -- Battle state (using actual battle engine variables)
+    local battlers = emu:read8(ADDR.BATTLERS_COUNT)
+    local btype_flags = emu:read32(ADDR.BATTLE_TYPE_FLAGS)
+    local boutcome = emu:read8(ADDR.BATTLE_OUTCOME)
+    if battlers >= 2 and boutcome == 0 then
+        -- In active battle: check trainer flag (bit 3 = 0x8)
+        if band(btype_flags, 0x8) ~= 0 then
+            state.in_battle = 2  -- trainer
+        else
+            state.in_battle = 1  -- wild
+        end
     else
         state.in_battle = 0
     end
+    state.battle_outcome = boutcome
 
     -- Party
     local party_count = emu:read8(ADDR.PARTY_COUNT)
@@ -243,29 +293,38 @@ local function read_game_state()
         end
     end
 
-    -- Pokedex counts
-    state.pokedex_seen = count_bits(ADDR.POKEDEX_SEEN, 52)
-    state.pokedex_caught = count_bits(ADDR.POKEDEX_CAUGHT, 52)
+    -- Pokedex (read via SaveBlock2 pointer)
+    if sb2_valid then
+        local caught_addr = sb2 + ADDR.SB2_CAUGHT
+        local seen_addr   = sb2 + ADDR.SB2_SEEN
+        state.pokedex_caught = count_bits(caught_addr, 52)
+        state.pokedex_seen   = count_bits(seen_addr, 52)
 
-    -- Pokedex species ID lists (for dashboard highlighting)
-    state.seen_ids = {}
-    state.caught_ids = {}
-    for i = 0, 51 do
-        local seen_byte = emu:read8(ADDR.POKEDEX_SEEN + i)
-        local caught_byte = emu:read8(ADDR.POKEDEX_CAUGHT + i)
-        for bit = 0, 7 do
-            local species = i * 8 + bit + 1
-            if species <= 386 then
-                if seen_byte % 2 == 1 then
-                    state.seen_ids[#state.seen_ids + 1] = species
+        -- Build species ID lists for dashboard highlighting
+        state.seen_ids = {}
+        state.caught_ids = {}
+        for i = 0, 51 do
+            local seen_byte   = emu:read8(seen_addr + i)
+            local caught_byte = emu:read8(caught_addr + i)
+            for bit = 0, 7 do
+                local species = i * 8 + bit + 1
+                if species <= 386 then
+                    if seen_byte % 2 == 1 then
+                        state.seen_ids[#state.seen_ids + 1] = species
+                    end
+                    if caught_byte % 2 == 1 then
+                        state.caught_ids[#state.caught_ids + 1] = species
+                    end
                 end
-                if caught_byte % 2 == 1 then
-                    state.caught_ids[#state.caught_ids + 1] = species
-                end
+                seen_byte   = math.floor(seen_byte / 2)
+                caught_byte = math.floor(caught_byte / 2)
             end
-            seen_byte = math.floor(seen_byte / 2)
-            caught_byte = math.floor(caught_byte / 2)
         end
+    else
+        state.pokedex_seen = 0
+        state.pokedex_caught = 0
+        state.seen_ids = {}
+        state.caught_ids = {}
     end
 
     return state

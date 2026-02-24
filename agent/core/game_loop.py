@@ -397,6 +397,7 @@ class GameLoop:
                 "reasoning": analysis.get("reasoning", ""),
                 "action": analysis.get("action", ""),
                 "action_detail": analysis.get("action_detail", ""),
+                "next_plan": analysis.get("next_plan", ""),
                 "uptime": self._uptime(),
                 "errors": self.consecutive_errors,
                 "total_memories": self.memory.total_memories,

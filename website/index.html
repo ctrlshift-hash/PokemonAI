@@ -1318,6 +1318,135 @@
       text-transform: capitalize;
     }
     .dex-cell:hover .dex-cell-tooltip { opacity: 1; }
+    .dex-cell.seen, .dex-cell.caught { cursor: pointer; }
+
+    /* Pokedex Detail Modal */
+    .dex-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .dex-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .dex-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg, 12px);
+      width: 340px;
+      max-width: 90vw;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+      overflow: hidden;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.25s ease;
+    }
+    .dex-modal-overlay.active .dex-modal {
+      transform: scale(1) translateY(0);
+    }
+    .dex-modal-header {
+      padding: 20px 24px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .dex-modal-sprite {
+      width: 80px;
+      height: 80px;
+      image-rendering: pixelated;
+      background: rgba(0,0,0,0.03);
+      border-radius: var(--radius-sm, 8px);
+      padding: 8px;
+    }
+    .dex-modal-info { flex: 1; }
+    .dex-modal-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: capitalize;
+      margin: 0;
+    }
+    .dex-modal-number {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .dex-modal-types {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .dex-modal-type-badge {
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: capitalize;
+      letter-spacing: 0.5px;
+    }
+    .dex-modal-body {
+      padding: 16px 24px 20px;
+    }
+    .dex-modal-flavor {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin: 0 0 12px;
+      min-height: 40px;
+    }
+    .dex-modal-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .dex-modal-stat {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .dex-modal-stat span {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .dex-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: rgba(0,0,0,0.05);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 16px;
+      transition: background var(--transition-fast);
+    }
+    .dex-modal-close:hover {
+      background: rgba(0,0,0,0.1);
+      color: var(--text-primary);
+    }
+    .dex-modal-loading {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
 
     /* ═══════════════════════════════════════════
        JOURNEY
@@ -2096,6 +2225,25 @@
     </div>
   </section>
 
+  <!-- Pokedex Detail Modal -->
+  <div class="dex-modal-overlay" id="dex-modal-overlay">
+    <div class="dex-modal">
+      <div class="dex-modal-header">
+        <img class="dex-modal-sprite" id="dex-modal-sprite" src="" alt="">
+        <div class="dex-modal-info">
+          <div class="dex-modal-number" id="dex-modal-number"></div>
+          <h3 class="dex-modal-name" id="dex-modal-name"></h3>
+          <div class="dex-modal-types" id="dex-modal-types"></div>
+        </div>
+        <button class="dex-modal-close" id="dex-modal-close">&times;</button>
+      </div>
+      <div class="dex-modal-body">
+        <p class="dex-modal-flavor" id="dex-modal-flavor">Loading...</p>
+        <div class="dex-modal-stats" id="dex-modal-stats"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="pokeball-divider">
     <div class="pokeball-divider-line"></div>
     <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" stroke="#DC2626" stroke-width="4"/><rect x="4" y="47" width="92" height="6" fill="#DC2626"/><circle cx="50" cy="50" r="14" stroke="#DC2626" stroke-width="4" fill="#F5F5F8"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
@@ -2749,7 +2897,7 @@
         const type = SPECIES_TYPE[id] || 'normal';
         const tc = TYPE_COLORS[type] || '#A8A878';
         h += '<div class="dex-cell" id="dex-' + id + '" style="--type-color:' + tc + '">' +
-          '<div class="dex-cell-tooltip">#' + id + ' ' + name + '</div>' +
+          '<div class="dex-cell-tooltip">#' + id + ' ' + name + ' <span style="opacity:0.6;font-weight:400">(' + type + ')</span></div>' +
           '<img class="dex-sprite" src="' + SPRITE_URL + '/' + id + '.png" alt="' + name + '" loading="lazy" onerror="this.style.display=\'none\'">' +
           '<span class="dex-num">' + String(id).padStart(3, '0') + '</span></div>';
       }
@@ -2784,6 +2932,101 @@
       $('dex-party-count').textContent = caughtIds.size;
       $('dex-seen-count').textContent = seenIds.size || gs.pokedex_seen || caughtIds.size;
     }
+
+    /* ═══════════════════════════════════════════
+       POKEDEX DETAIL MODAL
+       ═══════════════════════════════════════════ */
+    const dexCache = {};
+
+    function openDexModal(id) {
+      const name = GEN1_NAMES[id - 1] || 'unknown';
+      const type = SPECIES_TYPE[id] || 'normal';
+      const tc = TYPE_COLORS[type] || '#A8A878';
+      $('dex-modal-sprite').src = SPRITE_URL + '/' + id + '.png';
+      $('dex-modal-sprite').alt = name;
+      $('dex-modal-number').textContent = '#' + String(id).padStart(3, '0');
+      $('dex-modal-name').textContent = name;
+      $('dex-modal-types').innerHTML = '<span class="dex-modal-type-badge" style="background:' + tc + '">' + type + '</span>';
+      $('dex-modal-flavor').textContent = 'Loading...';
+      $('dex-modal-stats').innerHTML = '';
+      $('dex-modal-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      fetchDexData(id);
+    }
+
+    function closeDexModal() {
+      $('dex-modal-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    async function fetchDexData(id) {
+      if (dexCache[id]) return renderDexModal(id, dexCache[id]);
+      try {
+        const [specRes, pokRes] = await Promise.all([
+          fetch('https://pokeapi.co/api/v2/pokemon-species/' + id),
+          fetch('https://pokeapi.co/api/v2/pokemon/' + id)
+        ]);
+        if (!specRes.ok || !pokRes.ok) throw new Error('API error');
+        const spec = await specRes.json();
+        const pok = await pokRes.json();
+        const entry = spec.flavor_text_entries.find(e => e.language.name === 'en' && e.version.name === 'firered')
+          || spec.flavor_text_entries.find(e => e.language.name === 'en');
+        const types = pok.types.map(t => t.type.name);
+        const stats = {};
+        pok.stats.forEach(s => { stats[s.stat.name] = s.base_stat; });
+        dexCache[id] = {
+          flavor: entry ? entry.flavor_text.replace(/[\n\f\r]/g, ' ') : 'No description available.',
+          types: types,
+          height: pok.height / 10,
+          weight: pok.weight / 10,
+          stats: stats,
+          genus: (spec.genera.find(g => g.language.name === 'en') || {}).genus || ''
+        };
+        renderDexModal(id, dexCache[id]);
+      } catch (e) {
+        $('dex-modal-flavor').textContent = 'Could not load data.';
+      }
+    }
+
+    function renderDexModal(id, d) {
+      const overlay = $('dex-modal-overlay');
+      if (!overlay.classList.contains('active')) return;
+      $('dex-modal-flavor').textContent = d.flavor;
+      let typesHtml = '';
+      d.types.forEach(t => {
+        const c = TYPE_COLORS[t] || '#A8A878';
+        typesHtml += '<span class="dex-modal-type-badge" style="background:' + c + '">' + t + '</span>';
+      });
+      $('dex-modal-types').innerHTML = typesHtml;
+      const st = d.stats;
+      $('dex-modal-stats').innerHTML =
+        '<div class="dex-modal-stat">' + (d.genus || '') + '</div>' +
+        '<div class="dex-modal-stat">Height: <span>' + d.height + ' m</span></div>' +
+        '<div class="dex-modal-stat">HP: <span>' + (st.hp || '?') + '</span></div>' +
+        '<div class="dex-modal-stat">Weight: <span>' + d.weight + ' kg</span></div>' +
+        '<div class="dex-modal-stat">Atk: <span>' + (st.attack || '?') + '</span></div>' +
+        '<div class="dex-modal-stat">Def: <span>' + (st.defense || '?') + '</span></div>' +
+        '<div class="dex-modal-stat">Sp.Atk: <span>' + (st['special-attack'] || '?') + '</span></div>' +
+        '<div class="dex-modal-stat">Sp.Def: <span>' + (st['special-defense'] || '?') + '</span></div>' +
+        '<div class="dex-modal-stat">Speed: <span>' + (st.speed || '?') + '</span></div>';
+    }
+
+    /* Modal event listeners */
+    $('dex-modal-close').addEventListener('click', closeDexModal);
+    $('dex-modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeDexModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && $('dex-modal-overlay').classList.contains('active')) closeDexModal();
+    });
+    /* Attach click to pokedex grid (event delegation) */
+    $('pokedex-grid').addEventListener('click', function(e) {
+      const cell = e.target.closest('.dex-cell');
+      if (!cell) return;
+      if (!cell.classList.contains('seen') && !cell.classList.contains('caught')) return;
+      const id = parseInt(cell.id.replace('dex-', ''), 10);
+      if (id >= 1 && id <= 151) openDexModal(id);
+    });
 
     /* ═══════════════════════════════════════════
        HIGHLIGHTS
