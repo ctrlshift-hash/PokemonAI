@@ -2241,9 +2241,9 @@
       <span class="gradient-text">Pokemon AI</span>
     </h1>
     <p class="hero-subtitle hero-enter hero-enter-3">
-      <strong>Claude Opus 4.6</strong> plays <strong>Pokemon FireRed</strong> autonomously
-      on a <strong>Mac Mini</strong>. It screenshots the mGBA emulator, reasons through every battle
-      and menu, and presses the buttons itself &mdash; zero human input.
+      <strong>Claude Opus 4.6</strong> plays <strong>Pokemon FireRed</strong> 24/7
+      on a <strong>Mac Mini</strong>. It screenshots mGBA, reasons through every battle
+      and menu, and presses the buttons itself &mdash; zero human input, never stops.
     </p>
     <div class="hero-metrics hero-enter hero-enter-4" id="hero-metrics">
       <div class="hero-metric">
@@ -2598,7 +2598,7 @@
       <div class="reveal">
         <div class="section-label">Trainer Stats</div>
         <h2>Performance Metrics</h2>
-        <p class="section-desc">Every battle, step, and catch Claude makes is tracked. Stats are read from FireRed's RAM and stored in PostgreSQL on Railway for live dashboard updates.</p>
+        <p class="section-desc">Every battle, step, and catch Claude makes is tracked. Stats are read directly from FireRed's RAM by the Lua script and fed to the live dashboard running on the Mac Mini.</p>
       </div>
       <div class="stats-grid" id="stats-grid"></div>
 
@@ -2631,17 +2631,17 @@
       <div class="reveal">
         <div class="section-label">Architecture</div>
         <h2>System Design</h2>
-        <p class="section-desc">The full pipeline running on a single Mac Mini: mGBA emulator &rarr; Lua RAM reader &rarr; Python agent &rarr; Claude Opus 4.6 via Anthropic API &rarr; pydirectinput keyboard control. PostgreSQL on Railway for live stats.</p>
+        <p class="section-desc">The full pipeline running 24/7 on a single Mac Mini: mGBA emulator &rarr; Lua RAM reader &rarr; Python agent &rarr; Claude Opus 4.6 via Anthropic API &rarr; pydirectinput keyboard control.</p>
       </div>
       <div class="arch-flow reveal reveal-delay-1">
         <div class="arch-row">
+          <div class="arch-node infra"><div class="arch-node-label">Mac Mini</div><div class="arch-node-desc">Runs 24/7 &mdash; hosts everything</div></div>
+          <span class="arch-arrow">&rarr;</span>
           <div class="arch-node data"><div class="arch-node-label">mGBA Emulator</div><div class="arch-node-desc">Pokemon FireRed ROM</div></div>
           <span class="arch-arrow">&rarr;</span>
           <div class="arch-node data"><div class="arch-node-label">Lua Script</div><div class="arch-node-desc">Reads RAM every 30 frames</div></div>
           <span class="arch-arrow">&rarr;</span>
           <div class="arch-node data"><div class="arch-node-label">Game State JSON</div><div class="arch-node-desc">Party, map, badges, HP</div></div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node ai"><div class="arch-node-label">Python Agent</div><div class="arch-node-desc">Core orchestrator</div></div>
         </div>
         <div class="arch-arrow-down">&darr;</div>
         <div class="arch-row">
@@ -2651,17 +2651,15 @@
           <span class="arch-arrow">&larr;</span>
           <div class="arch-node ai"><div class="arch-node-label">Claude Opus 4.6</div><div class="arch-node-desc">Vision LLM via Anthropic API</div></div>
           <span class="arch-arrow">&larr;</span>
-          <div class="arch-node ai"><div class="arch-node-label">Screenshot</div><div class="arch-node-desc">480x320 JPEG capture</div></div>
+          <div class="arch-node ai"><div class="arch-node-label">Screenshot</div><div class="arch-node-desc">480&times;320 JPEG capture</div></div>
         </div>
         <div class="arch-arrow-down">&darr;</div>
         <div class="arch-row">
-          <div class="arch-node infra"><div class="arch-node-label">ChromaDB</div><div class="arch-node-desc">Vector memory store</div></div>
+          <div class="arch-node infra"><div class="arch-node-label">ChromaDB</div><div class="arch-node-desc">Vector memory on Mac Mini</div></div>
           <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node infra"><div class="arch-node-label">PostgreSQL</div><div class="arch-node-desc">Railway live state</div></div>
+          <div class="arch-node ai"><div class="arch-node-label">Python Agent</div><div class="arch-node-desc">Core orchestrator on Mac Mini</div></div>
           <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node infra"><div class="arch-node-label">REST API</div><div class="arch-node-desc">Railway server</div></div>
-          <span class="arch-arrow">&rarr;</span>
-          <div class="arch-node output"><div class="arch-node-label">This Dashboard</div><div class="arch-node-desc">Polls every 5 seconds</div></div>
+          <div class="arch-node output"><div class="arch-node-label">Live Dashboard</div><div class="arch-node-desc">Real-time feed</div></div>
         </div>
       </div>
       <div class="arch-legend reveal reveal-delay-2">
@@ -2681,9 +2679,6 @@
           <span class="tech-badge">mGBA Emulator</span>
           <span class="tech-badge">Lua 5.4</span>
           <span class="tech-badge">ChromaDB</span>
-          <span class="tech-badge">PostgreSQL</span>
-          <span class="tech-badge">Railway</span>
-          <span class="tech-badge">Vercel</span>
           <span class="tech-badge">pydirectinput</span>
           <span class="tech-badge">mss (screenshots)</span>
         </div>
@@ -2706,7 +2701,7 @@
           <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="14" stroke="#333" stroke-width="5" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
           Pokemon AI
         </div>
-        <div class="footer-tagline">Claude Opus 4.6 playing Pokemon FireRed autonomously on a Mac Mini.</div>
+        <div class="footer-tagline">Claude Opus 4.6 playing Pokemon FireRed 24/7 on a Mac Mini.</div>
         <div class="footer-bottom">
           <span>&copy; 2026 Pokemon AI</span>
           <span class="footer-bottom-dot"></span>
