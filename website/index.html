@@ -366,10 +366,11 @@
       z-index: 1001;
       display: flex;
       align-items: center;
-      gap: 0;
+      gap: 10px;
     }
     .nav-brand img { height: 44px; }
-    .nav-brand-spacer { width: 140px; flex-shrink: 0; }
+    .nav-brand .nav-status { position: static; }
+    .nav-brand-spacer { width: 200px; flex-shrink: 0; }
     .nav-links {
       display: flex;
       align-items: center;
@@ -1857,6 +1858,99 @@
     .log-phase { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: right; color: var(--text-muted); }
 
     /* ═══════════════════════════════════════════
+       FAQ
+       ═══════════════════════════════════════════ */
+    #faq { padding: 80px 24px; }
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .faq-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
+    }
+    .faq-item.open {
+      border-color: rgba(220,38,38,0.3);
+      box-shadow: var(--shadow-glow);
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      cursor: pointer;
+      gap: 16px;
+      user-select: none;
+    }
+    .faq-question:hover { background: var(--bg-surface); }
+    .faq-q-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+    .faq-item.open .faq-q-text { color: var(--red); }
+    .faq-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-family: var(--font-mono);
+    }
+    .faq-item.open .faq-toggle {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-a-text {
+      padding: 0 24px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin: 0 24px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .faq-a-text code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--bg-surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--red);
+    }
+
+    /* ═══════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════ */
     footer {
@@ -2168,9 +2262,14 @@
     <div class="nav-inner">
       <div class="nav-brand">
         <img src="https://static.wixstatic.com/media/e2da02_12995b975e5241c7b31da4045efa555f~mv2.png" alt="PokeLoop">
+        <div class="nav-status" id="nav-status">
+          <span class="dot"></span>
+          <span id="nav-status-text">Connecting...</span>
+        </div>
       </div>
       <div class="nav-brand-spacer"></div>
       <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#mind">AI Mind</a></li>
         <li><a href="#log">Log</a></li>
@@ -2180,11 +2279,8 @@
         <li><a href="#journey">Journey</a></li>
         <li><a href="#stats">Stats</a></li>
         <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
-      <div class="nav-status" id="nav-status">
-        <span class="dot"></span>
-        <span id="nav-status-text">Connecting...</span>
-      </div>
       <div class="nav-socials">
         <a class="social-pump" href="#" target="_blank" rel="noopener" title="Pump.fun">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5v-2.2l-3.5-3.5L9 10.3l2 2V6.5h2v5.8l2-2 1.5 1.5-3.5 3.5v2.2h-2z"/></svg>
@@ -2679,6 +2775,91 @@
     </div>
   </section>
 
+  <!-- ==================== FAQ ==================== -->
+  <section id="faq">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label" style="justify-content: center;">Frequently Asked Questions</div>
+        <h2 style="text-align: center;">FAQ</h2>
+        <p class="section-desc" style="text-align: center;">Everything you need to know about PokeLoop.</p>
+      </div>
+      <div class="faq-grid reveal">
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">What is PokeLoop?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">PokeLoop is an autonomous AI agent that plays Pokemon FireRed 24/7 on a Mac Mini with zero human input. It screenshots the mGBA emulator every 500ms, sends the frame to <code>Claude Opus 4.6</code> for reasoning, and executes keyboard inputs based on the AI's decisions. It reads the game's RAM directly through a Lua script to understand battle state, party data, and map position.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">How does the AI actually play the game?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">Every 500ms, the system captures a screenshot, converts it to a compressed JPEG, and sends it alongside structured RAM data (HP, moves, position, battle state) to the AI model. The model returns a JSON decision with an action (like <code>press_a</code>, <code>move_up</code>, or <code>use_move_2</code>) and reasoning. The input handler then presses the corresponding key via DirectInput.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">What hardware does it run on?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">Everything runs on a single Mac Mini sitting on a desk. The mGBA emulator, the Python agent, the Lua RAM reader, and the screenshot capture all run locally. The only cloud dependency is the Anthropic API for Claude's reasoning. No cloud servers, no VMs, no containers — just one Mac Mini running 24/7.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">Can it actually beat the game?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">That's the goal. The agent has a 22-step progression tree hardcoded from Pallet Town to the Champion. It auto-advances goals when RAM data confirms completion (e.g., badge count increases, new Pokemon caught). It's a genuine experiment to see if a vision-based AI can complete a full RPG without human intervention.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">How does it handle battles?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">The battle manager reads the opponent's species and types from RAM, cross-references a full 18-type effectiveness chart, and includes this data in the AI prompt. The model sees the screenshot of the battle plus structured data about HP, PP, move types, and type matchups — then picks the optimal move. It also knows when to heal, when to switch Pokemon, and when to run.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">Is this live right now?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">Check the status indicator at the top of the page. If it says "Online" with a green dot, the Mac Mini is actively running and streaming decisions to this dashboard in real-time. The dashboard polls for updates every 5 seconds. All the stats, log entries, and party data you see are from the live game session.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">What's the tech stack?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text"><code>Python</code> for the agent core, <code>Lua</code> for RAM reading inside mGBA, <code>Claude Opus 4.6</code> via Anthropic API for vision and reasoning, <code>mss</code> for screenshots, <code>pydirectinput</code> for keyboard input, <code>ChromaDB</code> for vector memory, and <code>PostgreSQL</code> for the live feed API. The dashboard is a single static HTML file.</div>
+          </div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span class="faq-q-text">Can I contribute or fork this project?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-a-text">The source code is available on <a href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank">GitHub</a>. Feel free to explore, fork, or open issues. The project is MIT licensed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== FOOTER ==================== -->
   <footer>
     <div class="footer-divider">
@@ -2717,6 +2898,12 @@
         val.innerHTML = 'Copied! <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
         setTimeout(() => { val.innerHTML = orig; el.classList.remove('copied'); }, 1500);
       });
+    }
+
+    function toggleFaq(item) {
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
     }
 
     /* ═══════════════════════════════════════════
