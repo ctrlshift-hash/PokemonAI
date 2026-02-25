@@ -320,55 +320,6 @@
     /* ═══════════════════════════════════════════
        LOADER
        ═══════════════════════════════════════════ */
-    #loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #FFFFFF;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-pokeball {
-      width: 48px;
-      height: 48px;
-      animation: loader-spin 1s ease-in-out infinite;
-    }
-    @keyframes loader-spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .loader-text {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .loader-bar {
-      width: 200px;
-      height: 3px;
-      background: rgba(220,38,38,0.15);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .loader-bar-fill {
-      height: 100%;
-      width: 30%;
-      background: var(--gradient-fire);
-      border-radius: 2px;
-      animation: loader-sweep 1.2s ease-in-out infinite;
-    }
-    @keyframes loader-sweep {
-      0% { transform: translateX(-100%); width: 30%; }
-      50% { width: 60%; }
-      100% { transform: translateX(400%); width: 30%; }
-    }
-
     /* ═══════════════════════════════════════════
        CANVAS BG
        ═══════════════════════════════════════════ */
@@ -2203,12 +2154,6 @@
   <canvas id="canvas-bg"></canvas>
 
   <!-- Loader (Pokeball themed) -->
-  <div id="loader">
-    <img class="loader-pokeball" src="https://static.wixstatic.com/media/e2da02_12995b975e5241c7b31da4045efa555f~mv2.png" alt="PokeLoop" width="64" height="64">
-    <div class="loader-text">PokeLoop</div>
-    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-  </div>
-
   <!-- Navigation -->
   <nav id="nav">
     <div class="nav-inner">
@@ -3583,7 +3528,6 @@
       const [ok] = await Promise.all([fetchFeed(), fetchSessions()]);
       if (!ok) loadDemoData();
       render(); observeReveals();
-      setTimeout(() => $('loader').classList.add('hidden'), ok ? 500 : 1500);
       setInterval(async () => {
         const live = await fetchFeed();
         if (live && usingDemo) { usingDemo = false; }
