@@ -356,7 +356,7 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      position: relative;
     }
     .nav-brand {
       position: fixed;
@@ -369,8 +369,11 @@
       gap: 8px;
     }
     .nav-brand img { height: 44px; }
-    .nav-brand-spacer { width: 140px; flex-shrink: 0; }
+    .nav-brand-spacer { display: none; }
     .nav-links {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 20px;
