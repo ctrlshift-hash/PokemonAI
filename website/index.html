@@ -532,6 +532,66 @@
       50% { opacity: 0.5; transform: scale(0.85); }
     }
 
+    /* CA Banner */
+    .ca-banner {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #1a1a2e, #2a1a3e);
+      border-bottom: 1px solid rgba(220,38,38,0.2);
+      gap: 10px;
+    }
+    .ca-banner-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+    .ca-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.25);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.02em;
+    }
+    .ca-banner-btn:hover {
+      background: rgba(220,38,38,0.2);
+      border-color: rgba(220,38,38,0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220,38,38,0.2);
+    }
+    .ca-banner-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .ca-banner-btn svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .ca-banner-btn:hover svg { opacity: 1; }
+    .ca-banner-btn.copied {
+      background: rgba(22,163,74,0.15);
+      border-color: rgba(22,163,74,0.4);
+      color: #4ade80;
+    }
+
     /* ═══════════════════════════════════════════
        HERO
        ═══════════════════════════════════════════ */
@@ -542,7 +602,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 120px 24px 80px;
+      padding: 156px 24px 80px;
       position: relative;
       z-index: 1;
       background: linear-gradient(180deg, #FFFFFF 0%, #FFF8F8 40%, rgba(220,38,38,0.06) 70%, var(--bg-primary) 100%);
@@ -2217,6 +2277,15 @@
     </div>
   </nav>
 
+  <!-- CA Banner -->
+  <div class="ca-banner">
+    <span class="ca-banner-label">CA:</span>
+    <button class="ca-banner-btn" onclick="copyCA(this)">
+      TBA
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </button>
+  </div>
+
   <!-- ==================== HERO ==================== -->
   <section id="hero">
     <svg class="hero-pokeball-bg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2713,6 +2782,19 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
+    /* ═══════════════════════════════════════════
+       CA COPY
+       ═══════════════════════════════════════════ */
+    function copyCA(btn) {
+      navigator.clipboard.writeText('TBA').then(() => {
+        btn.classList.add('copied');
+        const orig = btn.innerHTML;
+        btn.innerHTML = 'Copied!' +
+          ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+
     /* ═══════════════════════════════════════════
        CONFIG
        ═══════════════════════════════════════════ */
