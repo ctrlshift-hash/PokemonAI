@@ -368,7 +368,8 @@
       align-items: center;
       gap: 8px;
     }
-    .nav-brand img { height: 44px; }
+    .nav-brand img { height: 44px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav-brand img:hover { transform: scale(1.15); }
     .nav-brand-spacer { display: none; }
     .nav-links {
       position: absolute;
@@ -2266,7 +2267,7 @@
   <nav id="nav">
     <div class="nav-inner">
       <div class="nav-brand">
-        <img src="https://static.wixstatic.com/media/e2da02_71f454fe6c9b411a935cc8deed853ca2~mv2.png" alt="PokeLoop">
+        <img src="https://static.wixstatic.com/media/e2da02_cba1bcfd928649628f7000e4c20207ee~mv2.png" alt="PokeLoop">
         <div class="nav-status" id="nav-status" style="margin-left: 8px;">
           <span class="dot"></span>
           <span id="nav-status-text">Connecting...</span>
