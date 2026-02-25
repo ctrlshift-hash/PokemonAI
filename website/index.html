@@ -534,10 +534,8 @@
 
     /* CA Button */
     .ca-btn {
-      position: fixed;
-      top: 96px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
+      margin: 20px auto 0;
       z-index: 99;
       display: inline-flex;
       align-items: center;
@@ -553,7 +551,7 @@
     .ca-btn:hover {
       border-color: var(--border-hover);
       box-shadow: var(--shadow-md);
-      transform: translateX(-50%) translateY(-1px);
+      transform: translateY(-1px);
     }
     .ca-btn-label {
       font-family: var(--font-mono);
