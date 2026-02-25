@@ -3376,12 +3376,14 @@
       document.body.classList.toggle('battle-active', isBattle);
       if (isBattle) {
         const bs = data.battle_stats || {};
-        const bt = String(bs.battle_type || 'wild');
-        $('battle-type').textContent = bt.charAt(0).toUpperCase() + bt.slice(1) + ' Battle';
+        const ps = data.player_stats || {};
+        const btMap = {0: 'No', 1: 'Wild', 2: 'Trainer'};
+        const btLabel = btMap[bs.battle_type] || 'Wild';
+        $('battle-type').textContent = btLabel + ' Battle';
         $('battle-turns').textContent = bs.battle_turns || 0;
-        $('battle-won').textContent = bs.battles_won || 0;
+        $('battle-won').textContent = bs.battles_won || ps.battles_won || 0;
         $('battle-fled').textContent = bs.battles_fled || 0;
-        $('battle-whiteouts').textContent = bs.whiteouts || (data.player_stats||{}).whiteouts || 0;
+        $('battle-whiteouts').textContent = bs.whiteouts || ps.whiteouts || 0;
       }
     }
 
