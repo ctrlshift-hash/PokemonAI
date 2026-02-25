@@ -366,15 +366,14 @@
       z-index: 1001;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .nav-brand img { height: 44px; }
-    .nav-brand .nav-status { position: static; }
-    .nav-brand-spacer { width: 200px; flex-shrink: 0; }
+    .nav-brand-spacer { width: 140px; flex-shrink: 0; }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 20px;
       list-style: none;
     }
     .nav-links a {
@@ -2262,10 +2261,6 @@
     <div class="nav-inner">
       <div class="nav-brand">
         <img src="https://static.wixstatic.com/media/e2da02_12995b975e5241c7b31da4045efa555f~mv2.png" alt="PokeLoop">
-        <div class="nav-status" id="nav-status">
-          <span class="dot"></span>
-          <span id="nav-status-text">Connecting...</span>
-        </div>
       </div>
       <div class="nav-brand-spacer"></div>
       <ul class="nav-links">
@@ -2281,6 +2276,10 @@
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
+      <div class="nav-status" id="nav-status">
+        <span class="dot"></span>
+        <span id="nav-status-text">Connecting...</span>
+      </div>
       <div class="nav-socials">
         <a class="social-pump" href="#" target="_blank" rel="noopener" title="Pump.fun">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5v-2.2l-3.5-3.5L9 10.3l2 2V6.5h2v5.8l2-2 1.5 1.5-3.5 3.5v2.2h-2z"/></svg>
