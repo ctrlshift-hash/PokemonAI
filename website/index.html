@@ -534,6 +534,11 @@
 
     /* CA Button */
     .ca-btn {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
       display: inline-flex;
       align-items: center;
       border-radius: 10px;
@@ -543,7 +548,6 @@
       box-shadow: var(--shadow-sm);
       cursor: pointer;
       transition: all 0.2s ease;
-      margin-top: 4px;
     }
     .ca-btn:hover {
       border-color: var(--border-hover);
@@ -2265,6 +2269,14 @@
     </div>
   </nav>
 
+  <div class="ca-btn" onclick="copyCA(this)">
+    <span class="ca-btn-label">CA</span>
+    <button class="ca-btn-value">
+      TBA
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </button>
+  </div>
+
   <!-- ==================== HERO ==================== -->
   <section id="hero">
     <svg class="hero-pokeball-bg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2293,13 +2305,6 @@
       on a <strong>Mac Mini</strong>. It screenshots mGBA, reasons through every battle
       and menu, and presses the buttons itself &mdash; zero human input, never stops.
     </p>
-    <div class="ca-btn hero-enter hero-enter-3" onclick="copyCA(this)">
-      <span class="ca-btn-label">CA</span>
-      <button class="ca-btn-value">
-        TBA
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      </button>
-    </div>
     <div class="hero-metrics hero-enter hero-enter-4" id="hero-metrics">
       <div class="hero-metric">
         <div class="hero-metric-value skeleton" id="hm-uptime">--</div>
