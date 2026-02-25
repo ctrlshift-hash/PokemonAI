@@ -543,47 +543,56 @@
       align-items: center;
       border-radius: 10px;
       overflow: hidden;
-      min-width: 420px;
-      border: 1px solid var(--border);
-      background: var(--bg-secondary);
-      box-shadow: var(--shadow-sm);
+      min-width: 480px;
+      border: 2px solid #2A75BB;
+      background: #FFCB05;
+      box-shadow: 0 2px 8px rgba(42,117,187,0.25);
       cursor: pointer;
       transition: all 0.2s ease;
     }
     .ca-btn:hover {
-      border-color: var(--border-hover);
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 4px 16px rgba(42,117,187,0.35);
+      transform: translateX(-50%) translateY(-1px);
     }
     .ca-btn-label {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--red);
-      padding: 7px 10px;
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border);
+      font-family: var(--font-pokemon);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #FFCB05;
+      padding: 8px 12px;
+      background: #2A75BB;
+      text-shadow:
+        -1px -1px 0 #1a4a7a,
+         1px -1px 0 #1a4a7a,
+        -1px  1px 0 #1a4a7a,
+         1px  1px 0 #1a4a7a;
     }
     .ca-btn-value {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
+      gap: 8px;
+      padding: 8px 14px;
+      flex: 1;
       background: transparent;
       border: none;
       font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-primary);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1a1a2e;
       cursor: pointer;
+      letter-spacing: 0.01em;
     }
     .ca-btn-value svg {
-      width: 12px;
-      height: 12px;
-      color: var(--text-muted);
+      width: 14px;
+      height: 14px;
+      color: #2A75BB;
+      flex-shrink: 0;
     }
-    .ca-btn:hover .ca-btn-value svg { color: var(--red); }
-    .ca-btn.copied .ca-btn-value { color: var(--green); }
-    .ca-btn.copied .ca-btn-value svg { color: var(--green); }
+    .ca-btn:hover .ca-btn-value svg { color: #1a4a7a; }
+    .ca-btn.copied { background: #4ade80; border-color: #16a34a; }
+    .ca-btn.copied .ca-btn-value { color: #fff; }
+    .ca-btn.copied .ca-btn-value svg { color: #fff; }
 
     /* ═══════════════════════════════════════════
        HERO
@@ -2273,7 +2282,7 @@
   <div class="ca-btn" onclick="copyCA(this)">
     <span class="ca-btn-label">CA</span>
     <button class="ca-btn-value">
-      TBA
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
     </button>
   </div>
@@ -2778,7 +2787,7 @@
        CA COPY
        ═══════════════════════════════════════════ */
     function copyCA(el) {
-      navigator.clipboard.writeText('TBA').then(() => {
+      navigator.clipboard.writeText('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX').then(() => {
         el.classList.add('copied');
         const val = el.querySelector('.ca-btn-value');
         const orig = val.innerHTML;
