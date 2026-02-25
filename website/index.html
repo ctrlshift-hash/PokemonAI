@@ -8,7 +8,7 @@
   <meta property="og:title" content="PokeLoop — Autonomous FireRed Agent">
   <meta property="og:description" content="Claude Opus 4.6 plays Pokemon FireRed autonomously on a Mac Mini. Watch it think, battle, and explore in real-time.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="https://static.wixstatic.com/media/e2da02_71f454fe6c9b411a935cc8deed853ca2~mv2.png" type="image/png">
+  <link rel="icon" href="https://static.wixstatic.com/media/e2da02_12995b975e5241c7b31da4045efa555f~mv2.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -415,6 +415,21 @@
       z-index: 1001;
       display: flex;
       align-items: center;
+      gap: 8px;
+      font-family: var(--font-pokemon);
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      color: #FFCB05;
+      text-shadow:
+        -1px -1px 0 #2A75BB,
+         1px -1px 0 #2A75BB,
+        -1px  1px 0 #2A75BB,
+         1px  1px 0 #2A75BB,
+         0   -1px 0 #2A75BB,
+         0    1px 0 #2A75BB,
+        -1px  0   0 #2A75BB,
+         1px  0   0 #2A75BB;
     }
     .nav-brand img { height: 32px; }
     .nav-brand-spacer { width: 140px; flex-shrink: 0; }
@@ -2215,7 +2230,8 @@
   <nav id="nav">
     <div class="nav-inner">
       <div class="nav-brand">
-        <img src="https://static.wixstatic.com/media/e2da02_6f99662cc92a426a98ca98f5c90fe511~mv2.png" alt="PokeLoop" style="height: 32px;">
+        <img src="https://static.wixstatic.com/media/e2da02_12995b975e5241c7b31da4045efa555f~mv2.png" alt="PokeLoop" style="height: 32px;">
+        PokeLoop
       </div>
       <div class="nav-brand-spacer"></div>
       <ul class="nav-links">
