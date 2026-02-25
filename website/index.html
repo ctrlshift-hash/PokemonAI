@@ -2790,74 +2790,74 @@
       <div class="faq-grid reveal">
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">What is PokeLoop?</span>
+            <span class="faq-q-text">What is PokeLoop and how does it work?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">PokeLoop is an autonomous AI agent that plays Pokemon FireRed 24/7 on a Mac Mini with zero human input. It screenshots the mGBA emulator every 500ms, sends the frame to <code>Claude Opus 4.6</code> for reasoning, and executes keyboard inputs based on the AI's decisions. It reads the game's RAM directly through a Lua script to understand battle state, party data, and map position.</div>
+            <div class="faq-a-text">PokeLoop is a fully autonomous AI agent that plays Pokemon FireRed end-to-end on a dedicated Mac Mini. The system operates on a <code>500ms decision cycle</code>: it captures the mGBA emulator frame, encodes it as a base64 JPEG, pairs it with structured game state extracted from RAM via a custom Lua script, and sends both to <code>Claude Opus 4.6</code> through the Anthropic API. The model returns a JSON-structured decision — action, reasoning, and confidence — which the input handler executes via DirectInput scan codes. No human touches the keyboard. Ever.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">How does the AI actually play the game?</span>
+            <span class="faq-q-text">How does the vision pipeline process each frame?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">Every 500ms, the system captures a screenshot, converts it to a compressed JPEG, and sends it alongside structured RAM data (HP, moves, position, battle state) to the AI model. The model returns a JSON decision with an action (like <code>press_a</code>, <code>move_up</code>, or <code>use_move_2</code>) and reasoning. The input handler then presses the corresponding key via DirectInput.</div>
+            <div class="faq-a-text">The screen capture module uses <code>mss</code> to grab the mGBA window at <code>480x320</code> resolution, compresses it to JPEG at quality 40 (keeping file size under 50KB), and base64-encodes it. This frame is merged with a structured context payload containing party HP/PP, opponent species and types, current map ID, badge count, inventory, and the active goal from the 22-step progression tree. The combined payload hits the Anthropic multimodal endpoint, and the model reasons over both visual and structured data simultaneously.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">What hardware does it run on?</span>
+            <span class="faq-q-text">What does the Lua RAM reader actually extract?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">Everything runs on a single Mac Mini sitting on a desk. The mGBA emulator, the Python agent, the Lua RAM reader, and the screenshot capture all run locally. The only cloud dependency is the Anthropic API for Claude's reasoning. No cloud servers, no VMs, no containers — just one Mac Mini running 24/7.</div>
+            <div class="faq-a-text">The Lua script runs inside mGBA and reads FireRed v1.0 US memory addresses every 30 frames. It decrypts the Gen III Pokemon data structure — handling PID-based substructure reordering (<code>PID % 24</code> determines the permutation of Growth, Attacks, EVs, and Misc blocks) and XOR decryption using the personality value. It extracts party data, opponent data, battle state flags, map coordinates, trainer name, badge bitmask, and Pokedex counts, then writes everything to <code>game_state.json</code> using an inline JSON encoder (mGBA has no JSON library).</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">Can it actually beat the game?</span>
+            <span class="faq-q-text">How does the battle engine make combat decisions?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">That's the goal. The agent has a 22-step progression tree hardcoded from Pallet Town to the Champion. It auto-advances goals when RAM data confirms completion (e.g., badge count increases, new Pokemon caught). It's a genuine experiment to see if a vision-based AI can complete a full RPG without human intervention.</div>
+            <div class="faq-a-text">The battle manager cross-references the opponent's species against a full <code>18x18 type effectiveness matrix</code> and injects matchup data directly into the prompt. It tracks cursor position in the 2x2 move grid, calculates STAB bonuses, evaluates remaining PP across all four move slots, and monitors HP thresholds. When HP drops below 30%, an interrupt-driven healing system overrides the attack sequence — navigating the bag menu, selecting the right Potion, and executing a multi-tick input sequence. The system also maintains a list of nearby Pokemon Centers for strategic retreats.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">How does it handle battles?</span>
+            <span class="faq-q-text">What infrastructure runs this 24/7?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">The battle manager reads the opponent's species and types from RAM, cross-references a full 18-type effectiveness chart, and includes this data in the AI prompt. The model sees the screenshot of the battle plus structured data about HP, PP, move types, and type matchups — then picks the optimal move. It also knows when to heal, when to switch Pokemon, and when to run.</div>
+            <div class="faq-a-text">A single Mac Mini. That's it. The mGBA emulator, Python agent process, Lua RAM reader, and screenshot pipeline all run locally. The only external dependency is the Anthropic API for Claude's inference. Game state is persisted to <code>ChromaDB</code> for semantic vector memory (the AI can recall past experiences by similarity search) and to <code>PostgreSQL</code> on Railway for the live dashboard feed. No Kubernetes, no Docker, no load balancers — one machine, one process, running indefinitely.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">Is this live right now?</span>
+            <span class="faq-q-text">What's the goal progression system?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">Check the status indicator at the top of the page. If it says "Online" with a green dot, the Mac Mini is actively running and streaming decisions to this dashboard in real-time. The dashboard polls for updates every 5 seconds. All the stats, log entries, and party data you see are from the live game session.</div>
+            <div class="faq-a-text">A hardcoded 22-step DAG (directed acyclic graph) defines the optimal route from Professor Oak's lab to the Pokemon League Champion. Each node has completion conditions validated against RAM state — badge bitmask checks, Pokedex flags, map ID comparisons, and party size thresholds. When conditions are met, the planner auto-advances to the next goal and injects updated navigation context into the prompt. The system handles stuck detection with a configurable tick threshold: if no meaningful state change occurs within N ticks, it triggers an exploration override.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">What's the tech stack?</span>
+            <span class="faq-q-text">Is the dashboard showing real-time data?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text"><code>Python</code> for the agent core, <code>Lua</code> for RAM reading inside mGBA, <code>Claude Opus 4.6</code> via Anthropic API for vision and reasoning, <code>mss</code> for screenshots, <code>pydirectinput</code> for keyboard input, <code>ChromaDB</code> for vector memory, and <code>PostgreSQL</code> for the live feed API. The dashboard is a single static HTML file.</div>
+            <div class="faq-a-text">Yes. The dashboard polls the Railway API endpoint every <code>5 seconds</code>. Every stat, log entry, party member, and badge you see reflects the actual game state from the Mac Mini. The green "Online" indicator confirms the agent is actively running. When the system goes offline, the dashboard freezes on the last known state and switches to a red "Offline" indicator. Historical decision logs, catch events, and battle outcomes are all persisted and queryable.</div>
           </div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span class="faq-q-text">Can I contribute or fork this project?</span>
+            <span class="faq-q-text">Where's the source code?</span>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-answer">
-            <div class="faq-a-text">The source code is available on <a href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank">GitHub</a>. Feel free to explore, fork, or open issues. The project is MIT licensed.</div>
+            <div class="faq-a-text">The full codebase — agent core, Lua RAM reader, battle manager, goal planner, ChromaDB memory, and dashboard — is open source on <a href="https://github.com/ctrlshift-hash/PokemonAI" target="_blank">GitHub</a> under the MIT license. 26 files, ~5,000 lines of code. The <code>memory_reader.py</code> alone is 999 lines containing all 386 species names and 354 move names for Gen III.</div>
           </div>
         </div>
       </div>
@@ -2876,8 +2876,7 @@
     <div class="container">
       <div class="footer-inner">
         <div class="footer-brand-name">
-          <svg viewBox="0 0 100 100" fill="none"><defs><clipPath id="ft-top"><rect x="0" y="0" width="100" height="50"/></clipPath></defs><circle cx="50" cy="50" r="46" stroke="#E53535" stroke-width="5"/><circle cx="50" cy="50" r="43" fill="#E53535" clip-path="url(#ft-top)"/><rect x="4" y="47" width="92" height="6" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="14" stroke="#333" stroke-width="5" fill="var(--bg-primary)"/><circle cx="50" cy="50" r="6" fill="#DC2626"/></svg>
-          PokeLoop
+          <img src="https://static.wixstatic.com/media/e2da02_ce6d6005c06148ec91c63a339c5231de~mv2.png" alt="PokeLoop" style="height: 28px;">
         </div>
         <div class="footer-tagline">Claude Opus 4.6 playing Pokemon FireRed 24/7 on a Mac Mini.</div>
         <div class="footer-bottom">
