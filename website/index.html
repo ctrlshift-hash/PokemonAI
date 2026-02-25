@@ -1321,12 +1321,21 @@
     }
     .gym-badge.earned:hover::after { animation: badge-gleam 0.7s ease forwards; }
     .gym-badge-icon {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--text-dim);
-      transition: color var(--transition-base);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-base);
     }
-    .gym-badge.earned .gym-badge-icon { color: var(--badge-color); }
+    .gym-badge-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: grayscale(1) opacity(0.3);
+      transition: filter var(--transition-base);
+    }
+    .gym-badge.earned .gym-badge-icon img { filter: none; }
     .gym-badge-name {
       font-size: 8px;
       font-weight: 700;
@@ -2719,14 +2728,14 @@
     const ITEM_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items';
 
     const BADGE_DATA = [
-      { name: 'Boulder', icon: 'B', type: 'Rock',     color: '#B8A038' },
-      { name: 'Cascade', icon: 'C', type: 'Water',    color: '#6890F0' },
-      { name: 'Thunder', icon: 'T', type: 'Electric', color: '#F8D030' },
-      { name: 'Rainbow', icon: 'R', type: 'Grass',    color: '#78C850' },
-      { name: 'Marsh',   icon: 'M', type: 'Psychic',  color: '#F85888' },
-      { name: 'Soul',    icon: 'S', type: 'Poison',   color: '#A040A0' },
-      { name: 'Volcano', icon: 'V', type: 'Fire',     color: '#F08030' },
-      { name: 'Earth',   icon: 'E', type: 'Ground',   color: '#E0C068' }
+      { name: 'Boulder', icon: 'https://archives.bulbagarden.net/media/upload/d/dd/Boulder_Badge.png', type: 'Rock',     color: '#B8A038' },
+      { name: 'Cascade', icon: 'https://archives.bulbagarden.net/media/upload/9/9c/Cascade_Badge.png', type: 'Water',    color: '#6890F0' },
+      { name: 'Thunder', icon: 'https://archives.bulbagarden.net/media/upload/a/a6/Thunder_Badge.png', type: 'Electric', color: '#F8D030' },
+      { name: 'Rainbow', icon: 'https://archives.bulbagarden.net/media/upload/b/b5/Rainbow_Badge.png', type: 'Grass',    color: '#78C850' },
+      { name: 'Marsh',   icon: 'https://archives.bulbagarden.net/media/upload/6/6b/Marsh_Badge.png',   type: 'Psychic',  color: '#F85888' },
+      { name: 'Soul',    icon: 'https://archives.bulbagarden.net/media/upload/7/7d/Soul_Badge.png',    type: 'Poison',   color: '#A040A0' },
+      { name: 'Volcano', icon: 'https://archives.bulbagarden.net/media/upload/1/12/Volcano_Badge.png', type: 'Fire',     color: '#F08030' },
+      { name: 'Earth',   icon: 'https://archives.bulbagarden.net/media/upload/7/78/Earth_Badge.png',   type: 'Ground',   color: '#E0C068' }
     ];
 
     const STAT_DEFS = [
@@ -3101,7 +3110,7 @@
         const earned = (bm >> i) & 1;
         const b = BADGE_DATA[i];
         h += '<div class="gym-badge ' + (earned?'earned':'') + '" style="--badge-color:' + b.color + ';">' +
-          '<div class="gym-badge-icon">' + b.icon + '</div>' +
+          '<div class="gym-badge-icon"><img src="' + b.icon + '" alt="' + b.name + ' Badge"></div>' +
           '<div class="gym-badge-name">' + b.name + '</div>' +
           '<div class="gym-badge-type">' + b.type + '</div></div>';
       }
