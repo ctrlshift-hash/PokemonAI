@@ -3376,7 +3376,7 @@
       document.body.classList.toggle('battle-active', isBattle);
       if (isBattle) {
         const bs = data.battle_stats || {};
-        const bt = bs.battle_type || 'wild';
+        const bt = String(bs.battle_type || 'wild');
         $('battle-type').textContent = bt.charAt(0).toUpperCase() + bt.slice(1) + ' Battle';
         $('battle-turns').textContent = bs.battle_turns || 0;
         $('battle-won').textContent = bs.battles_won || 0;
